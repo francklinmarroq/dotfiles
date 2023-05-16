@@ -107,7 +107,6 @@ screen.connect_signal("request::wallpaper", function(s)
 
 end)
 -- }}}
-
 -- {{{ Wibar
 
 -- Keyboard map indicator and switcher
