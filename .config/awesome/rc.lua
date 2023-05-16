@@ -36,7 +36,7 @@ end)
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init("/home/frank/.config/awesome/theme.lua")
-beautiful.get().wallpaper = "~/.conf/awesome/wallpaper/water.jpg"
+beautiful.get().wallpaper = "home/.conf/awesome/wallpaper/water.jpg"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
@@ -118,11 +118,37 @@ mytextclock = wibox.widget.textclock()
 
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
+    --
+    awful.tag({"1","2","3","4","5"}, s, awful.layout.layouts[1])
+   
 
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+
+
+
+
+    s.mytaglist = awful.widget.taglist {
+        screen = s,
+        filter = awful.widget.taglist.filter.all,
+        buttons = taglist_buttons
+    }
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
+    s.mywibar = awful.wibar({ position = "top", screen = s })
+    s.mywibar:setup {
+        layout = wibox.layout.align.horizontal,
+        {
+            layout = wibox.layout.fixed.horizontal,
+            s.mytaglist
+        },
+        {
+            layout = wibox.layout.fixed.horizontal,
+        },
+        {
+            layout = wibox.layout.fixed.horizontal,
+        }
+
+    }
 
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
@@ -171,6 +197,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             awful.button({ }, 5, function() awful.client.focus.byidx( 1) end),
         }
     }
+
 
 end)
 
@@ -419,6 +446,7 @@ end)
 
 -- }}}
 
+
 -- {{{ Rules
 -- Rules to apply to new clients.
 ruled.client.connect_signal("request::rules", function()
@@ -456,61 +484,9 @@ ruled.client.connect_signal("request::rules", function()
         },
         properties = { floating = true }
     }
-
-    -- Add titlebars to normal clients and dialogs
-    -- ruled.client.append_rule {
-    --    id         = "titlebars",
-    --    rule_any   = { type = { "normal", "dialog" } },
-    --    properties = { titlebars_enabled = true      }
-    --}
-
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- ruled.client.append_rule {
-    --     rule       = { class = "Firefox"     },
-    --     properties = { screen = 1, tag = "2" }
-    -- }
 end)
 -- }}}
 
--- {{{ Titlebars
--- Add a titlebar if titlebars_enabled is set to true in the rules.
-client.connect_signal("request::titlebars", function(c)
-    -- buttons for the titlebar
-    local buttons = {
-        awful.button({ }, 1, function()
-            c:activate { context = "titlebar", action = "mouse_move"  }
-        end),
-        awful.button({ }, 3, function()
-            c:activate { context = "titlebar", action = "mouse_resize"}
-        end),
-    }
-
-    awful.titlebar(c).widget = {
-        { -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal
-        },
-        { -- Middle
-            { -- Title
-                halign = "center",
-                widget = awful.titlebar.widget.titlewidget(c)
-            },
-            buttons = buttons,
-            layout  = wibox.layout.flex.horizontal
-        },
-        { -- Right
-            awful.titlebar.widget.floatingbutton (c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton   (c),
-            awful.titlebar.widget.ontopbutton    (c),
-            awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-    }
-end)
--- }}}
 
 -- {{{ Notifications
 
@@ -530,12 +506,6 @@ naughty.connect_signal("request::display", function(n)
 end)
 
 -- }}}
-
--- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:activate { context = "mouse_enter", raise = false }
-end)
-
 
 --  Default programs
 awful.spawn.with_shell("picom -b")

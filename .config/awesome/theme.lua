@@ -25,7 +25,7 @@ theme.font          = "Hack Nerd Font 10"
     theme.fg_urgent     = "#ffffff"
     theme.fg_minimize   = "#ffffff"
 
-    theme.useless_gap         = dpi(5)
+    theme.useless_gap         = dpi(10)
     theme.border_width        = dpi(0)
     theme.border_color_normal = "#000000"
     theme.border_color_active = "#535d6c"
