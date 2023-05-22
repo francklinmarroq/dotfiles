@@ -145,6 +145,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         },
         {
             layout = wibox.layout.fixed.horizontal,
+            mytextclock
         }
 
     }
