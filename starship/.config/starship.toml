@@ -1,5 +1,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# Mantiene la misma estructura Powerline
 format = """
 [](color_bg1)\
 $os\
@@ -26,22 +27,31 @@ $time\
 [ ](fg:color_purple)\
 $line_break$character"""
 
-palette = 'gruvbox_dark'
+# La paleta de colores se establece como 'github_dark'
+palette = 'github_dark'
 
-[palettes.gruvbox_dark]
-color_fg0 = '#fbf1c7'
-color_bg1 = '#3c3836'
-color_bg3 = '#665c54'
-color_blue = '#458588'
-color_aqua = '#689d6a'
-color_green = '#98971a'
-color_orange = '#d65d0e'
-color_purple = '#b16286'
-color_red = '#cc241d'
-color_yellow = '#d79921'
+# ---
+## Paleta de Colores (GitHub Dark Default) 
+# Los colores se han mapeado a la paleta de GitHub Dark.
+# 'color_bg_dark' se usa como color de texto para los módulos de colores.
+[palettes.github_dark]
+color_bg_dark = '#24292e'     # Fondo principal oscuro de GitHub (se usa como texto en módulos de color)
+color_bg1 = '#2b3137'         # Fondo de módulos (un poco más claro que el fondo, como en GitHub)
+color_fg0 = '#f6f8fa'         # Foreground (texto claro principal)
+
+color_blue = '#54a3ff'        # Azul para Docker/Info
+color_aqua = '#58a6ff'        # Aqua/Celeste para Lenguajes
+color_green = '#3fb950'        # Verde para Éxito/Git
+color_yellow = '#c9d1d9'      # Directorios (Gris claro de alto contraste)
+color_purple = '#c97aee'      # Púrpura/Magenta para Tiempo
+color_red = '#f85149'         # Rojo para Errores
+
+# ---
+## Configuración de Módulos (Powerline) ⚙️
 
 [os]
 disabled = false
+# Fondo principal (dark gray) y texto principal (light text)
 style = "bg:color_bg1 fg:color_fg0"
 
 [os.symbols]
@@ -67,12 +77,14 @@ RedHatEnterprise = "󱄛"
 
 [username]
 show_always = true
+# Fondo principal (dark gray) y texto principal (light text)
 style_user = "bg:color_bg1 fg:color_fg0"
 style_root = "bg:color_bg1 fg:color_fg0"
 format = '[ $user ]($style)'
 
 [directory]
-style = "fg:color_bg3 bg:color_yellow"
+# Texto en color de fondo oscuro de GitHub ('color_bg_dark') y fondo en 'color_yellow' (gris claro)
+style = "fg:color_bg_dark bg:color_yellow"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -86,77 +98,87 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:color_aqua"
-format = '[[ $symbol $branch ](fg:color_bg1 bg:color_green)]($style)'
+# Fondo en 'color_green' (Git/Éxito)
+style = "bg:color_green"
+# Texto en color de fondo oscuro de GitHub ('color_bg_dark')
+format = '[[ $symbol $branch ](fg:color_bg_dark bg:color_green)]($style)'
 
 [git_status]
-style = "bg:color_aqua"
-format = '[[($all_status$ahead_behind )](fg:color_bg1 bg:color_green)]($style)'
+# Mantiene el fondo en 'color_green'
+style = "bg:color_green"
+# Texto en color de fondo oscuro de GitHub ('color_bg_dark')
+format = '[[($all_status$ahead_behind )](fg:color_bg_dark bg:color_green)]($style)'
 
+# Módulos de Lenguajes agrupados con fondo en 'color_aqua' (Celeste/Info)
 [nodejs]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [c]
 symbol = " "
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [rust]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [golang]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [php]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [java]
 symbol = " "
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [kotlin]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [haskell]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [python]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol( $version) ](fg:color_bg1 bg:color_aqua)]($style)'
+format = '[[ $symbol( $version) ](fg:color_bg_dark bg:color_aqua)]($style)'
 
 [docker_context]
 symbol = ""
-style = "bg:color_bg3"
-format = '[[ $symbol( $context) ](fg:color_aqua bg:color_bg3)]($style)'
+# Fondo en 'color_blue' (Docker/Contexto)
+style = "bg:color_blue"
+# Texto en color de fondo oscuro de GitHub ('color_bg_dark')
+format = '[[ $symbol( $context) ](fg:color_bg_dark bg:color_blue)]($style)'
 
 [time]
 disabled = false
 time_format = "%R"
+# Fondo en 'color_purple' (Tiempo)
 style = "bg:color_purple"
-format = '[[  $time ](fg:color_bg3 bg:color_purple)]($style)'
+# Texto principal ('color_fg0') en fondo púrpura
+format = '[[  $time ](fg:color_fg0 bg:color_purple)]($style)'
 
 [line_break]
 disabled = false
 
 [character]
 disabled = false
-success_symbol = '[](bold fg:color_green)'
-error_symbol = '[](bold fg:color_red)'
+# Símbolos finales con el texto en negrita y el color de estado/error de GitHub
+success_symbol = '[](bold fg:color_green)' # Éxito en verde de GitHub
+error_symbol = '[](bold fg:color_red)'     # Error en rojo de GitHub
 vimcmd_symbol = '[](bold fg:color_aqua)'
 vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
 vimcmd_replace_symbol = '[](bold fg:color_purple)'
-vimcmd_visual_symbol = '[](bold fg:color_lavender)'
+vimcmd_visual_symbol = '[](bold fg:color_blue)'

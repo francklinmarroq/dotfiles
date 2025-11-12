@@ -1,6 +1,6 @@
 window {
-    background-color: #282828;
-    border: 2px solid #fbf1c7;
+    background-color: #0d1117;
+    border: 2px solid #30363d;
     border-radius: 10px;
 }
 
@@ -10,23 +10,23 @@ window {
 }
 
 #input {
-    background-color: #3c3836;
-    color: #fbf1c7;
+    background-color: #161b22;
+    color: #c9d1d9;
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid #665c54;
+    border: 1px solid #30363d;
 }
 
 #inner-box {
-    background-color: #282828;
+    background-color: #0d1117;
 }
 
 #scroll {
-    background-color: #282828;
+    background-color: #0d1117;
 }
 
 #text {
-    color: #fbf1c7;
+    color: #c9d1d9;
     padding: 5px;
 }
 
@@ -36,15 +36,15 @@ window {
 }
 
 #entry:selected {
-    background-color: #665c54;
-    color: #fbf1c7;
-    border: 1px solid #b16286;
+    background-color: #21262d;
+    color: #c9d1d9;
+    border: 1px solid #58a6ff;
 }
 
 /* Scrollbar */
 scrollbar {
-    background-color: #282828;
-    color: #665c54;
+    background-color: #0d1117;
+    color: #30363d;
     border-radius: 5px;
     margin: 5px;
 }

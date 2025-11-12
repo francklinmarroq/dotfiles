@@ -1,7 +1,12 @@
 local map = vim.keymap.set
-local builtin = require("telescope.builtin")
-map("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
-map("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
+
+-- Telescope keymaps (loaded lazily to avoid errors if telescope isn't loaded yet)
+map("n", "<leader>ff", function()
+	require("telescope.builtin").find_files()
+end, { desc = "Find files" })
+map("n", "<leader>fg", function()
+	require("telescope.builtin").live_grep()
+end, { desc = "Live Grep" })
 
 vim.keymap.set("n", "<C-n>", ":Neotree filesystem reveal left<CR>")
 vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})

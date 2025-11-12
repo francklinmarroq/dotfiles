@@ -10,7 +10,7 @@
 }
 
 window#waybar {
-  background: #1d2021; /* bg0_h - hard */
+  background: #0d1117; /* GitHub dark background */
   padding: 3px 0;
 }
 
@@ -33,11 +33,11 @@ window#waybar.hidden {
 #mpris {
   font-family: JetBrainsMono Nerd Font;
   font-size: 10.5px;
-  color: #ebdbb2; /* fg1 */
+  color: #c9d1d9; /* GitHub foreground */
   margin-right: 6px;
   margin-left: 6px;
   padding: 3px 7px;
-  border-bottom: 2px solid #3c3836; /* bg1 */
+  border-bottom: 2px solid #21262d; /* GitHub border */
   margin-top: 2px;
   margin-bottom: 2px;
 }
@@ -49,16 +49,16 @@ window#waybar.hidden {
   font-family: JetBrainsMono Nerd Font;
   font-size: 10.5px;
   font-weight: 600;
-  color: #ebdbb2; /* fg1 */
+  color: #c9d1d9; /* GitHub foreground */
   padding: 0;
-  border-bottom: 2px solid #3c3836;
+  border-bottom: 2px solid #21262d;
   margin-top: 2px;
   margin-right: 2px;
   margin-left: 2px;
 }
 
 #workspaces button {
-  color: #ebdbb2;
+  color: #c9d1d9;
   border-radius: 0;
   margin: 3px 1px;
   min-width: 20px;
@@ -66,29 +66,29 @@ window#waybar.hidden {
 }
 
 #workspaces button:hover {
-  background: #3c3836; /* bg1 */
+  background: #21262d; /* GitHub hover */
 }
 
 #workspaces button.active {
-  background: #b8bb26; /* green */
-  color: #282828;      /* bg0 */
+  background: #58a6ff; /* GitHub blue */
+  color: #0d1117;      /* dark bg */
 }
 
 #workspaces button.urgent {
-  background: #fb4934; /* red */
-  color: #282828;
+  background: #f85149; /* GitHub red */
+  color: #0d1117;
 }
 
 /* ======================================================== */
 /* window */
 /* ======================================================== */
 #window {
-  color: #282828;
-  background: #83a598; /* blue */
+  color: #0d1117;
+  background: #58a6ff; /* GitHub blue */
   border-radius: 0;
   margin: 2px 6px;
   padding: 3px 7px;
-  border-bottom-color: #458588;
+  border-bottom-color: #1f6feb;
 }
 
 window#waybar.empty #window {
@@ -103,76 +103,76 @@ window#waybar.empty #window {
 /* Network module */
 /* ======================================================== */
 #network {
-  color: #fabd2f; /* yellow */
-  border-bottom-color: #fabd2f;
+  color: #d29922; /* GitHub yellow/orange */
+  border-bottom-color: #d29922;
 }
 
 #network.disconnected {
-  color: #fb4934; /* red */
-  border-bottom-color: #fb4934;
+  color: #f85149; /* GitHub red */
+  border-bottom-color: #f85149;
 }
 
 /* ======================================================== */
 /* Audio module */
 /* ======================================================== */
 #wireplumber {
-  color: #8ec07c; /* aqua */
-  border-bottom-color: #8ec07c;
+  color: #56d364; /* GitHub green */
+  border-bottom-color: #56d364;
 }
 
 #wireplumber.muted {
-  color: #fb4934; /* red */
-  border-bottom-color: #fb4934;
+  color: #f85149; /* GitHub red */
+  border-bottom-color: #f85149;
 }
 
 /* ======================================================== */
 /* cpu */
 /* ======================================================== */
 #cpu {
-  color: #b8bb26; /* green */
-  border-bottom-color: #b8bb26;
+  color: #56d364; /* GitHub green */
+  border-bottom-color: #56d364;
 }
 
 /* ======================================================== */
 /* memory */
 /* ======================================================== */
 #memory {
-  color: #d3869b; /* purple */
-  border-bottom-color: #d3869b;
+  color: #bc8cff; /* GitHub purple */
+  border-bottom-color: #bc8cff;
 }
 
 /* ======================================================== */
 /* backlight */
 /* ======================================================== */
 #backlight {
-  color: #fabd2f; /* yellow */
-  border-bottom-color: #fabd2f;
+  color: #d29922; /* GitHub yellow/orange */
+  border-bottom-color: #d29922;
 }
 
 /* ======================================================== */
 /* battery */
 /* ======================================================== */
 #battery {
-  color: #98971a; /* dark green */
-  border-bottom-color: #98971a;
+  color: #3fb950; /* GitHub dark green */
+  border-bottom-color: #3fb950;
 }
 
 #battery.charging, #battery.plugged {
-  color: #b8bb26; /* green */
-  border-bottom-color: #b8bb26;
+  color: #56d364; /* GitHub green */
+  border-bottom-color: #56d364;
 }
 
 #battery.critical:not(.charging) {
-  color: #fb4934; /* red */
-  border-bottom-color: #fb4934;
+  color: #f85149; /* GitHub red */
+  border-bottom-color: #f85149;
 }
 
 /* ======================================================== */
 /* clock */
 /* ======================================================== */
 #clock {
-  color: #83a598; /* blue */
-  border-bottom-color: #83a598;
+  color: #58a6ff; /* GitHub blue */
+  border-bottom-color: #58a6ff;
 }
 
 /* ======================================================== */
@@ -182,47 +182,47 @@ window#waybar.empty #window {
   padding: 3px 7px;
   margin-left: 6px;
   margin-right: 6px;
-  border-bottom-color: #ebdbb2; /* fg */
+  border-bottom-color: #c9d1d9; /* GitHub foreground */
 }
 
 /* ======================================================== */
 /* custom-launcher */
 /* ======================================================== */
 #custom-launcher {
-  color: #d79921; /* yellow-orange */
+  color: #ffa657; /* GitHub orange */
   font-size: 12px;
   margin-left: 6px;
   margin-right: 6px;
-  border-bottom-color: #d79921;
+  border-bottom-color: #ffa657;
 }
 
 /* ======================================================== */
 /* custom-bluetooth */
 /* ======================================================== */
 #custom-bluetooth {
-  color: #458588; /* dark aqua */
-  border-bottom-color: #458588;
+  color: #1f6feb; /* GitHub dark blue */
+  border-bottom-color: #1f6feb;
 }
 
 /* ======================================================== */
 /* custom-updates */
 /* ======================================================== */
 #custom-updates {
-  color: #fabd2f; /* yellow */
-  border-bottom-color: #fabd2f;
+  color: #d29922; /* GitHub yellow/orange */
+  border-bottom-color: #d29922;
 }
 
 /* ======================================================== */
 /* Media player */
 /* ======================================================== */
 #mpris {
-  color: #8ec07c; /* aqua */
-  border-bottom-color: #8ec07c;
+  color: #56d364; /* GitHub green */
+  border-bottom-color: #56d364;
 }
 
 #mpris:hover {
-  color: #b8bb26; /* green */
-  border-bottom-color: #b8bb26;
+  color: #3fb950; /* GitHub darker green */
+  border-bottom-color: #3fb950;
 }
 
 /* ======================================================== */
@@ -242,19 +242,21 @@ window#waybar.empty #window {
   border-radius: 0;
   margin: 2px 1px;
   padding: 2px 2px;
-  color: #ebdbb2; /* fg1 */
-  border-bottom: 2px solid #928374; /* gray */
+  color: #c9d1d9; /* GitHub foreground */
+  border-bottom: 2px solid #6e7681; /* GitHub gray */
   min-width: 14px;
 }
 
 #taskbar button.active {
-  border-bottom-color: #b8bb26; /* green */
+  border-bottom-color: #56d364; /* GitHub green */
 }
 
 #taskbar button:hover {
-  border-bottom-color: #fabd2f; /* yellow */
+  border-bottom-color: #d29922; /* GitHub yellow/orange */
 }
 
 #taskbar button.urgent {
-  border-bottom-color: #fb4934; /* red */
+  border-bottom-color: #f85149; /* GitHub red */
 }
+
+
