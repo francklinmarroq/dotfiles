@@ -19,23 +19,41 @@ return {
 		lazy = false,
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
 
-			lspconfig.lua_ls.setup({
-				capabilities = capabilities
-			})
+			-- Configure each LSP server using the new vim.lsp.config API
+			vim.lsp.config.lua_ls = {
+				cmd = { 'lua-language-server' },
+				filetypes = { 'lua' },
+				root_markers = { '.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml', 'selene.yml', '.git' },
+				capabilities = capabilities,
+			}
 
-			lspconfig.ts_ls.setup({
-				capabilities = capabilities
-			})
+			vim.lsp.config.ts_ls = {
+				cmd = { 'typescript-language-server', '--stdio' },
+				filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx', 'vue' },
+				root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
+				capabilities = capabilities,
+			}
 
-			lspconfig.html.setup({
-				capabilities = capabilities
-			})
+			vim.lsp.config.html = {
+				cmd = { 'vscode-html-language-server', '--stdio' },
+				filetypes = { 'html' },
+				root_markers = { 'package.json', '.git' },
+				capabilities = capabilities,
+			}
 
-			lspconfig.vuels.setup({
-				capabilities = capabilities
-			})
+			vim.lsp.config.volar = {
+				cmd = { 'vue-language-server', '--stdio' },
+				filetypes = { 'vue' },
+				root_markers = { 'package.json', 'vue.config.js', 'vite.config.js', '.git' },
+				capabilities = capabilities,
+			}
+
+			-- Enable LSP servers
+			vim.lsp.enable('lua_ls')
+			vim.lsp.enable('ts_ls')
+			vim.lsp.enable('html')
+			vim.lsp.enable('volar')
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
