@@ -19,41 +19,42 @@ return {
 		lazy = false,
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local lspconfig = require("lspconfig")
 
-			-- Configure each LSP server using the new vim.lsp.config API
-			vim.lsp.config.lua_ls = {
-				cmd = { 'lua-language-server' },
-				filetypes = { 'lua' },
-				root_markers = { '.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml', 'selene.yml', '.git' },
+			-- Lua Language Server
+			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
-			}
+			})
 
-			vim.lsp.config.ts_ls = {
-				cmd = { 'typescript-language-server', '--stdio' },
+			-- TypeScript Language Server with Vue plugin
+			lspconfig.ts_ls.setup({
+				capabilities = capabilities,
+				init_options = {
+					plugins = {
+						{
+							name = "@vue/typescript-plugin",
+							location = vim.fn.getcwd() .. "/node_modules/@vue/typescript-plugin",
+							languages = { "vue" }
+						}
+					}
+				},
 				filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx', 'vue' },
-				root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
-				capabilities = capabilities,
-			}
+			})
 
-			vim.lsp.config.html = {
-				cmd = { 'vscode-html-language-server', '--stdio' },
-				filetypes = { 'html' },
-				root_markers = { 'package.json', '.git' },
+			-- HTML Language Server
+			lspconfig.html.setup({
 				capabilities = capabilities,
-			}
+			})
 
-			vim.lsp.config.volar = {
-				cmd = { 'vue-language-server', '--stdio' },
-				filetypes = { 'vue' },
-				root_markers = { 'package.json', 'vue.config.js', 'vite.config.js', '.git' },
+			-- Vue Language Server in hybrid mode
+			lspconfig.vue_ls.setup({
 				capabilities = capabilities,
-			}
-
-			-- Enable LSP servers
-			vim.lsp.enable('lua_ls')
-			vim.lsp.enable('ts_ls')
-			vim.lsp.enable('html')
-			vim.lsp.enable('volar')
+				init_options = {
+					vue = {
+						hybridMode = true
+					}
+				}
+			})
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
