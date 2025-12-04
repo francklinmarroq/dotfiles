@@ -19,85 +19,76 @@ return {
 		lazy = false,
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local lspconfig = require("lspconfig")
 
-			-- Configure each LSP server using the new vim.lsp.config API
-			vim.lsp.config.lua_ls = {
-				cmd = { "lua-language-server" },
-				filetypes = { "lua" },
-				root_markers = {
-					".luarc.json",
-					".luarc.jsonc",
-					".luacheckrc",
-					".stylua.toml",
-					"stylua.toml",
-					"selene.toml",
-					"selene.yml",
-					".git",
-				},
+			-- Check if @vue/typescript-plugin is installed in Vue projects
+			local function check_vue_typescript_plugin()
+				local cwd = vim.fn.getcwd()
+				local package_json = cwd .. "/package.json"
+
+				-- Check if package.json exists
+				if vim.fn.filereadable(package_json) == 1 then
+					local file = io.open(package_json, "r")
+					if file then
+						local content = file:read("*all")
+						file:close()
+
+						-- Check if it's a Vue project
+						if content:match('"vue"') then
+							local plugin_path = cwd .. "/node_modules/@vue/typescript-plugin"
+
+							-- Check if plugin is NOT installed
+							if vim.fn.isdirectory(plugin_path) == 0 then
+								vim.notify(
+									"Vue project detected!\n" ..
+									"Install TypeScript plugin for better LSP support:\n" ..
+									"npm install --save-dev @vue/typescript-plugin",
+									vim.log.levels.WARN,
+									{ title = "Vue LSP Setup" }
+								)
+							end
+						end
+					end
+				end
+			end
+
+			-- Run check after a short delay to avoid blocking startup
+			vim.defer_fn(check_vue_typescript_plugin, 1000)
+
+			-- Lua Language Server
+			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
-			}
+			})
 
-			vim.lsp.config.ts_ls = {
-				cmd = { "typescript-language-server", "--stdio" },
-				filetypes = {
-					"javascript",
-					"javascriptreact",
-					"javascript.jsx",
-					"typescript",
-					"typescriptreact",
-					"typescript.tsx",
-					"vue",
-				},
-				root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
-				capabilities = capabilities,
-			}
-
-			vim.lsp.config.html = {
-				cmd = { "vscode-html-language-server", "--stdio" },
-				filetypes = { "html" },
-				root_markers = { "package.json", ".git" },
-				capabilities = capabilities,
-			}
-
-			vim.lsp.config.volar = {
-				cmd = { "vue-language-server", "--stdio" },
-				filetypes = { "vue" },
-				root_markers = { "package.json", "vue.config.js", "vite.config.js", "nuxt.config.ts", ".git" },
+			-- TypeScript Language Server with Vue plugin
+			lspconfig.ts_ls.setup({
 				capabilities = capabilities,
 				init_options = {
-					typescript = {
-						tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
-					},
-					languageFeatures = {
-						implementation = true,
-						references = true,
-						definition = true,
-						typeDefinition = true,
-						callHierarchy = true,
-						hover = true,
-						rename = true,
-						renameFileRefactoring = true,
-						signatureHelp = true,
-						codeAction = true,
-						workspaceSymbol = true,
-						completion = {
-							defaultTagNameCase = "both",
-							defaultAttrNameCase = "kebabCase",
-							getDocumentNameCasesRequest = false,
-							getDocumentSelectionRequest = false,
-						},
-					},
+					plugins = {
+						{
+							name = "@vue/typescript-plugin",
+							location = vim.fn.getcwd() .. "/node_modules/@vue/typescript-plugin",
+							languages = { "vue" }
+						}
+					}
 				},
-				on_attach = function(client, bufnr)
-					-- Tu función on_attach aquí si tienes una
-				end,
-			}
+				filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx', 'vue' },
+			})
 
-			-- Enable LSP servers
-			vim.lsp.enable("lua_ls")
-			vim.lsp.enable("ts_ls")
-			vim.lsp.enable("html")
-			vim.lsp.enable("volar")
+			-- HTML Language Server
+			lspconfig.html.setup({
+				capabilities = capabilities,
+			})
+
+			-- Vue Language Server in hybrid mode
+			lspconfig.volar.setup({
+				capabilities = capabilities,
+				init_options = {
+					vue = {
+						hybridMode = true
+					}
+				}
+			})
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
