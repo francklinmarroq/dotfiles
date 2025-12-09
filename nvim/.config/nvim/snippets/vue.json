@@ -1,0 +1,606 @@
+{
+  "Vue 3 SFC Template": {
+    "prefix": [
+      "vue3",
+      "vbase"
+    ],
+    "body": [
+      "<script setup lang=\"ts\">",
+      "$0",
+      "</script>",
+      "",
+      "<template>",
+      "  <div>",
+      "    ",
+      "  </div>",
+      "</template>",
+      "",
+      "<style scoped>",
+      "",
+      "</style>"
+    ],
+    "description": "Vue 3 Single File Component con <script setup>"
+  },
+  "Vue 3 SFC with defineProps": {
+    "prefix": [
+      "vprops",
+      "vdefineprops"
+    ],
+    "body": [
+      "<script setup lang=\"ts\">",
+      "interface Props {",
+      "  ${1:propName}: ${2:string}",
+      "}",
+      "",
+      "const props = defineProps<Props>()",
+      "$0",
+      "</script>",
+      "",
+      "<template>",
+      "  <div>",
+      "    {{ props.${1:propName} }}",
+      "  </div>",
+      "</template>",
+      "",
+      "<style scoped>",
+      "",
+      "</style>"
+    ],
+    "description": "Vue 3 SFC con defineProps tipado"
+  },
+  "defineProps": {
+    "prefix": [
+      "dprops",
+      "defineprops"
+    ],
+    "body": [
+      "interface Props {",
+      "  ${1:propName}: ${2:string}",
+      "}",
+      "",
+      "const props = defineProps<Props>()"
+    ],
+    "description": "defineProps con TypeScript"
+  },
+  "defineProps with defaults": {
+    "prefix": [
+      "dpropsd",
+      "definepropsdefaults"
+    ],
+    "body": [
+      "interface Props {",
+      "  ${1:propName}?: ${2:string}",
+      "}",
+      "",
+      "const props = withDefaults(defineProps<Props>(), {",
+      "  ${1:propName}: '${3:defaultValue}'",
+      "})"
+    ],
+    "description": "defineProps con valores por defecto"
+  },
+  "defineEmits": {
+    "prefix": [
+      "demits",
+      "defineemits"
+    ],
+    "body": [
+      "const emit = defineEmits<{",
+      "  ${1:eventName}: [${2:payload}: ${3:string}]",
+      "}>()"
+    ],
+    "description": "defineEmits con TypeScript"
+  },
+  "defineExpose": {
+    "prefix": [
+      "dexpose",
+      "defineexpose"
+    ],
+    "body": [
+      "defineExpose({",
+      "  ${1:methodName}",
+      "})"
+    ],
+    "description": "defineExpose para exponer métodos/propiedades"
+  },
+  "ref": {
+    "prefix": [
+      "vref",
+      "ref"
+    ],
+    "body": [
+      "const ${1:name} = ref<${2:string}>($3)"
+    ],
+    "description": "ref con TypeScript"
+  },
+  "reactive": {
+    "prefix": [
+      "vreactive",
+      "reactive"
+    ],
+    "body": [
+      "const ${1:state} = reactive({",
+      "  ${2:property}: ${3:value}",
+      "})"
+    ],
+    "description": "reactive object"
+  },
+  "computed": {
+    "prefix": [
+      "vcomputed",
+      "computed"
+    ],
+    "body": [
+      "const ${1:name} = computed(() => {",
+      "  return $2",
+      "})"
+    ],
+    "description": "computed property"
+  },
+  "computed getter/setter": {
+    "prefix": [
+      "vcomputedgs",
+      "computedgs"
+    ],
+    "body": [
+      "const ${1:name} = computed({",
+      "  get: () => ${2:value},",
+      "  set: (newValue) => {",
+      "    $3",
+      "  }",
+      "})"
+    ],
+    "description": "computed con getter y setter"
+  },
+  "watch": {
+    "prefix": [
+      "vwatch",
+      "watch"
+    ],
+    "body": [
+      "watch(${1:source}, (newValue, oldValue) => {",
+      "  $2",
+      "})"
+    ],
+    "description": "watch"
+  },
+  "watchEffect": {
+    "prefix": [
+      "vwatcheffect",
+      "watcheffect"
+    ],
+    "body": [
+      "watchEffect(() => {",
+      "  $1",
+      "})"
+    ],
+    "description": "watchEffect"
+  },
+  "onMounted": {
+    "prefix": [
+      "vmounted",
+      "onmounted"
+    ],
+    "body": [
+      "onMounted(() => {",
+      "  $1",
+      "})"
+    ],
+    "description": "onMounted lifecycle hook"
+  },
+  "onUnmounted": {
+    "prefix": [
+      "vunmounted",
+      "onunmounted"
+    ],
+    "body": [
+      "onUnmounted(() => {",
+      "  $1",
+      "})"
+    ],
+    "description": "onUnmounted lifecycle hook"
+  },
+  "onBeforeMount": {
+    "prefix": [
+      "vbeforemount",
+      "onbeforemount"
+    ],
+    "body": [
+      "onBeforeMount(() => {",
+      "  $1",
+      "})"
+    ],
+    "description": "onBeforeMount lifecycle hook"
+  },
+  "onBeforeUnmount": {
+    "prefix": [
+      "vbeforeunmount",
+      "onbeforeunmount"
+    ],
+    "body": [
+      "onBeforeUnmount(() => {",
+      "  $1",
+      "})"
+    ],
+    "description": "onBeforeUnmount lifecycle hook"
+  },
+  "provide": {
+    "prefix": [
+      "vprovide",
+      "provide"
+    ],
+    "body": [
+      "provide('${1:key}', ${2:value})"
+    ],
+    "description": "provide para inyección de dependencias"
+  },
+  "inject": {
+    "prefix": [
+      "vinject",
+      "inject"
+    ],
+    "body": [
+      "const ${1:name} = inject<${2:Type}>('${3:key}')"
+    ],
+    "description": "inject para inyección de dependencias"
+  },
+  "v-for": {
+    "prefix": [
+      "vfor"
+    ],
+    "body": [
+      "<${1:div} v-for=\"${2:item} in ${3:items}\" :key=\"${2:item}.${4:id}\">",
+      "  {{ ${2:item} }}",
+      "</${1:div}>"
+    ],
+    "description": "v-for directive"
+  },
+  "v-if": {
+    "prefix": [
+      "vif"
+    ],
+    "body": [
+      "<${1:div} v-if=\"${2:condition}\">",
+      "  $3",
+      "</${1:div}>"
+    ],
+    "description": "v-if directive"
+  },
+  "v-else-if": {
+    "prefix": [
+      "velseif"
+    ],
+    "body": [
+      "<${1:div} v-else-if=\"${2:condition}\">",
+      "  $3",
+      "</${1:div}>"
+    ],
+    "description": "v-else-if directive"
+  },
+  "v-else": {
+    "prefix": [
+      "velse"
+    ],
+    "body": [
+      "<${1:div} v-else>",
+      "  $2",
+      "</${1:div}>"
+    ],
+    "description": "v-else directive"
+  },
+  "v-model": {
+    "prefix": [
+      "vmodel"
+    ],
+    "body": [
+      "v-model=\"${1:data}\""
+    ],
+    "description": "v-model directive"
+  },
+  "v-on click": {
+    "prefix": [
+      "vclick",
+      "von"
+    ],
+    "body": [
+      "@click=\"${1:handler}\""
+    ],
+    "description": "v-on:click shorthand"
+  },
+  "v-bind": {
+    "prefix": [
+      "vbind"
+    ],
+    "body": [
+      ":${1:attr}=\"${2:value}\""
+    ],
+    "description": "v-bind shorthand"
+  },
+  "Nuxt useFetch": {
+    "prefix": [
+      "nfetch",
+      "usefetch"
+    ],
+    "body": [
+      "const { data: ${1:data}, pending, error, refresh } = await useFetch<${2:Type}>('${3:/api/endpoint}')"
+    ],
+    "description": "Nuxt 3 useFetch composable"
+  },
+  "Nuxt useFetch with options": {
+    "prefix": [
+      "nfetcho",
+      "usefetchoptions"
+    ],
+    "body": [
+      "const { data: ${1:data}, pending, error, refresh } = await useFetch<${2:Type}>('${3:/api/endpoint}', {",
+      "  method: '${4|GET,POST,PUT,DELETE|}',",
+      "  body: ${5:body},",
+      "  headers: {",
+      "    'Content-Type': 'application/json'",
+      "  }",
+      "})"
+    ],
+    "description": "Nuxt 3 useFetch con opciones"
+  },
+  "Nuxt useAsyncData": {
+    "prefix": [
+      "nasync",
+      "useasyncdata"
+    ],
+    "body": [
+      "const { data: ${1:data}, pending, error, refresh } = await useAsyncData('${2:key}', () => {",
+      "  return $fetch<${3:Type}>('${4:/api/endpoint}')",
+      "})"
+    ],
+    "description": "Nuxt 3 useAsyncData composable"
+  },
+  "Nuxt useState": {
+    "prefix": [
+      "nstate",
+      "usestate"
+    ],
+    "body": [
+      "const ${1:state} = useState<${2:Type}>('${3:key}', () => ${4:initialValue})"
+    ],
+    "description": "Nuxt 3 useState composable"
+  },
+  "Nuxt useRoute": {
+    "prefix": [
+      "nroute",
+      "useroute"
+    ],
+    "body": [
+      "const route = useRoute()"
+    ],
+    "description": "Nuxt 3 useRoute composable"
+  },
+  "Nuxt useRouter": {
+    "prefix": [
+      "nrouter",
+      "userouter"
+    ],
+    "body": [
+      "const router = useRouter()"
+    ],
+    "description": "Nuxt 3 useRouter composable"
+  },
+  "Nuxt navigateTo": {
+    "prefix": [
+      "nnavigate",
+      "navigateto"
+    ],
+    "body": [
+      "await navigateTo('${1:/path}')"
+    ],
+    "description": "Nuxt 3 navigateTo"
+  },
+  "Nuxt useRuntimeConfig": {
+    "prefix": [
+      "nconfig",
+      "useruntimeconfig"
+    ],
+    "body": [
+      "const config = useRuntimeConfig()"
+    ],
+    "description": "Nuxt 3 useRuntimeConfig"
+  },
+  "Nuxt useCookie": {
+    "prefix": [
+      "ncookie",
+      "usecookie"
+    ],
+    "body": [
+      "const ${1:cookie} = useCookie<${2:string}>('${3:cookie-name}')"
+    ],
+    "description": "Nuxt 3 useCookie composable"
+  },
+  "Nuxt useHead": {
+    "prefix": [
+      "nhead",
+      "usehead"
+    ],
+    "body": [
+      "useHead({",
+      "  title: '${1:Page Title}',",
+      "  meta: [",
+      "    { name: 'description', content: '${2:Description}' }",
+      "  ]",
+      "})"
+    ],
+    "description": "Nuxt 3 useHead composable"
+  },
+  "Nuxt useSeoMeta": {
+    "prefix": [
+      "nseo",
+      "useseometa"
+    ],
+    "body": [
+      "useSeoMeta({",
+      "  title: '${1:Title}',",
+      "  description: '${2:Description}',",
+      "  ogTitle: '${1:Title}',",
+      "  ogDescription: '${2:Description}',",
+      "  ogImage: '${3:https://example.com/image.png}',",
+      "  twitterCard: 'summary_large_image'",
+      "})"
+    ],
+    "description": "Nuxt 3 useSeoMeta composable"
+  },
+  "Nuxt definePageMeta": {
+    "prefix": [
+      "npagemeta",
+      "definepagemeta"
+    ],
+    "body": [
+      "definePageMeta({",
+      "  layout: '${1:default}',",
+      "  middleware: ['${2:auth}']",
+      "})"
+    ],
+    "description": "Nuxt 3 definePageMeta"
+  },
+  "Nuxt API Route": {
+    "prefix": [
+      "napi",
+      "nuxtapi"
+    ],
+    "body": [
+      "export default defineEventHandler(async (event) => {",
+      "  $1",
+      "  return {",
+      "    $2",
+      "  }",
+      "})"
+    ],
+    "description": "Nuxt 3 API route handler"
+  },
+  "Nuxt API Route with body": {
+    "prefix": [
+      "napibody",
+      "nuxtapibody"
+    ],
+    "body": [
+      "export default defineEventHandler(async (event) => {",
+      "  const body = await readBody<${1:RequestBody}>(event)",
+      "  ",
+      "  $2",
+      "  ",
+      "  return {",
+      "    success: true,",
+      "    data: $3",
+      "  }",
+      "})"
+    ],
+    "description": "Nuxt 3 API route con body"
+  },
+  "Nuxt API Route with params": {
+    "prefix": [
+      "napiparams",
+      "nuxtapiparams"
+    ],
+    "body": [
+      "export default defineEventHandler(async (event) => {",
+      "  const { ${1:id} } = getRouterParams(event)",
+      "  const query = getQuery(event)",
+      "  ",
+      "  $2",
+      "  ",
+      "  return {",
+      "    $3",
+      "  }",
+      "})"
+    ],
+    "description": "Nuxt 3 API route con parámetros"
+  },
+  "Nuxt Middleware": {
+    "prefix": [
+      "nmiddleware",
+      "nuxtmiddleware"
+    ],
+    "body": [
+      "export default defineNuxtRouteMiddleware((to, from) => {",
+      "  $1",
+      "})"
+    ],
+    "description": "Nuxt 3 route middleware"
+  },
+  "Nuxt Plugin": {
+    "prefix": [
+      "nplugin",
+      "nuxtplugin"
+    ],
+    "body": [
+      "export default defineNuxtPlugin((nuxtApp) => {",
+      "  $1",
+      "})"
+    ],
+    "description": "Nuxt 3 plugin"
+  },
+  "Nuxt Composable": {
+    "prefix": [
+      "ncomposable",
+      "nuxtcomposable"
+    ],
+    "body": [
+      "export const use${1:Name} = () => {",
+      "  $2",
+      "  ",
+      "  return {",
+      "    $3",
+      "  }",
+      "}"
+    ],
+    "description": "Nuxt 3 composable personalizado"
+  },
+  "Pinia Store (Setup Syntax)": {
+    "prefix": [
+      "piniasetup",
+      "pstore"
+    ],
+    "body": [
+      "export const use${1:Name}Store = defineStore('${2:storeName}', () => {",
+      "  // State",
+      "  const ${3:count} = ref(${4:0})",
+      "  ",
+      "  // Getters",
+      "  const ${5:double} = computed(() => ${3:count}.value * 2)",
+      "  ",
+      "  // Actions",
+      "  function ${6:increment}() {",
+      "    ${3:count}.value++",
+      "  }",
+      "  ",
+      "  return {",
+      "    ${3:count},",
+      "    ${5:double},",
+      "    ${6:increment}",
+      "  }",
+      "})"
+    ],
+    "description": "Pinia store con setup syntax"
+  },
+  "try-catch async": {
+    "prefix": [
+      "trycatch",
+      "tc"
+    ],
+    "body": [
+      "try {",
+      "  $1",
+      "} catch (error) {",
+      "  console.error(error)",
+      "  $2",
+      "}"
+    ],
+    "description": "try-catch block"
+  },
+  "console.log": {
+    "prefix": [
+      "cl",
+      "clog"
+    ],
+    "body": [
+      "console.log('${1:label}:', ${2:value})"
+    ],
+    "description": "console.log con label"
+  }
+}

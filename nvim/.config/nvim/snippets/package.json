@@ -1,0 +1,21 @@
+{
+  "name": "vue-nuxt-snippets",
+  "version": "1.0.0",
+  "description": "Snippets para Vue 3 y Nuxt 3",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "vue",
+        "path": "./vue.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./vue.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./vue.json"
+      }
+    ]
+  }
+}
