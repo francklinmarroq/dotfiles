@@ -199,12 +199,6 @@ return {
                     find_files = {
                         hidden = true,
                         no_ignore = false,
-<<<<<<< HEAD
-=======
-                        find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
-                        -- Mostrar archivos Vue primero para proyectos Nuxt/Vue
-                        file_sorter = require("telescope.sorters").get_fuzzy_file,
->>>>>>> main
                     },
 
                     -- Live Grep - Fuzzy Grep (<leader>fg)
