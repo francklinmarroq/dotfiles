@@ -1,9 +1,15 @@
 {
   "extras": [
-
+    "lazyvim.plugins.extras.lang.typescript",
+    "lazyvim.plugins.extras.lang.vue",
+    "lazyvim.plugins.extras.lang.tailwind",
+    "lazyvim.plugins.extras.linting.eslint",
+    "lazyvim.plugins.extras.formatting.prettier"
   ],
+  "install_version": 7,
   "news": {
-    "NEWS.md": "11866"
+    "NEWS.md": "11866",
+    "READ_NEWS.md": "1"
   },
   "version": 8
 }
