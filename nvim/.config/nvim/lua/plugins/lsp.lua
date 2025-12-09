@@ -220,4 +220,49 @@ return {
         "b0o/schemastore.nvim",
         lazy = true,
     },
+<<<<<<< HEAD
+=======
+
+    -- ============================================================================
+    -- Mason - Instalación automática de servidores LSP
+    -- ============================================================================
+    {
+        "mason-org/mason.nvim",
+        opts = {
+            ensure_installed = {
+                -- Vue/Nuxt
+                "vue-language-server",
+                -- TypeScript/JavaScript
+                "typescript-language-server",
+                -- Linting/Formatting
+                "eslint-lsp",
+                "prettier",
+                "eslint_d",
+                -- CSS
+                "css-lsp",
+                "tailwindcss-language-server",
+                -- HTML
+                "html-lsp",
+                "emmet-ls",
+                -- JSON
+                "json-lsp",
+                -- Formateadores adicionales
+                "stylua",
+                "shfmt",
+                -- Linters adicionales
+                "jsonlint",
+                "markdownlint",
+                "shellcheck",
+            },
+        },
+    },
+
+    -- ============================================================================
+    -- Configuración específica para TypeScript/Vue con LazyVim
+    -- ============================================================================
+    {
+        "pmizio/typescript-tools.nvim",
+        enabled = false, -- Deshabilitado porque usamos Volar para Vue
+    },
+>>>>>>> main
 }
