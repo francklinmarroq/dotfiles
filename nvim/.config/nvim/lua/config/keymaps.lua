@@ -9,7 +9,7 @@ local opts = { noremap = true, silent = true }
 
 -- Helper para crear opciones con descripción
 local function with_desc(description)
-  return vim.tbl_extend("force", opts, { desc = description })
+    return vim.tbl_extend("force", opts, { desc = description })
 end
 
 -- ============================================================================
@@ -38,47 +38,51 @@ keymap("n", "<leader>fS", "<cmd>Telescope lsp_workspace_symbols<cr>", with_desc(
 
 -- Configuración de keymaps LSP que se activan cuando un LSP se conecta
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
-  callback = function(ev)
-    local buffer = ev.buf
-    local lsp_opts = function(desc)
-      return { noremap = true, silent = true, buffer = buffer, desc = desc }
-    end
+    group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+    callback = function(ev)
+        local buffer = ev.buf
+        local lsp_opts = function(desc)
+            return { noremap = true, silent = true, buffer = buffer, desc = desc }
+        end
 
-    -- <leader>gf - Formatear documento completo
-    keymap("n", "<leader>gf", function()
-      vim.lsp.buf.format({ async = true })
-    end, lsp_opts("LSP: Formatear documento"))
+        -- <leader>gf - Formatear documento completo
+        keymap("n", "<leader>gf", function()
+            require("conform").format({
+                async = true,
+                lsp_fallback = true,
+                timeout_ms = 5000,
+            })
+        end, lsp_opts("Formatear documento"))
 
-    -- <leader>gd - Go to Definition
-    keymap("n", "<leader>gd", vim.lsp.buf.definition, lsp_opts("LSP: Ir a definición"))
+        -- <leader>gd - Go to Definition
+        keymap("n", "<leader>gd", vim.lsp.buf.definition, lsp_opts("LSP: Ir a definición"))
 
-    -- <leader>gD - Go to Declaration
-    keymap("n", "<leader>gD", vim.lsp.buf.declaration, lsp_opts("LSP: Ir a declaración"))
+        -- <leader>gD - Go to Declaration
+        keymap("n", "<leader>gD", vim.lsp.buf.declaration, lsp_opts("LSP: Ir a declaración"))
 
-    -- Keymaps LSP adicionales (muy útiles para Vue/TypeScript)
-    keymap("n", "<leader>gi", vim.lsp.buf.implementation, lsp_opts("LSP: Ir a implementación"))
-    keymap("n", "<leader>gt", vim.lsp.buf.type_definition, lsp_opts("LSP: Ir a tipo"))
-    keymap("n", "<leader>gr", "<cmd>Telescope lsp_references<cr>", lsp_opts("LSP: Buscar referencias"))
+        -- Keymaps LSP adicionales (muy útiles para Vue/TypeScript)
+        keymap("n", "<leader>gi", vim.lsp.buf.implementation, lsp_opts("LSP: Ir a implementación"))
+        keymap("n", "<leader>gt", vim.lsp.buf.type_definition, lsp_opts("LSP: Ir a tipo"))
+        keymap("n", "<leader>gr", "<cmd>Telescope lsp_references<cr>", lsp_opts("LSP: Buscar referencias"))
 
-    -- Hover y Signature Help
-    keymap("n", "K", vim.lsp.buf.hover, lsp_opts("LSP: Hover información"))
-    keymap("n", "<C-k>", vim.lsp.buf.signature_help, lsp_opts("LSP: Signature help"))
-    keymap("i", "<C-k>", vim.lsp.buf.signature_help, lsp_opts("LSP: Signature help"))
+        -- Hover y Signature Help
+        keymap("n", "K", vim.lsp.buf.hover, lsp_opts("LSP: Hover información"))
+        keymap("n", "<C-k>", vim.lsp.buf.signature_help, lsp_opts("LSP: Signature help"))
+        keymap("i", "<C-k>", vim.lsp.buf.signature_help, lsp_opts("LSP: Signature help"))
 
-    -- Renombrar símbolo (muy útil en refactoring)
-    keymap("n", "<leader>rn", vim.lsp.buf.rename, lsp_opts("LSP: Renombrar símbolo"))
+        -- Renombrar símbolo (muy útil en refactoring)
+        keymap("n", "<leader>rn", vim.lsp.buf.rename, lsp_opts("LSP: Renombrar símbolo"))
 
-    -- Code Actions (ej: auto-import, quick fixes)
-    keymap("n", "<leader>ca", vim.lsp.buf.code_action, lsp_opts("LSP: Code actions"))
-    keymap("v", "<leader>ca", vim.lsp.buf.code_action, lsp_opts("LSP: Code actions"))
+        -- Code Actions (ej: auto-import, quick fixes)
+        keymap("n", "<leader>ca", vim.lsp.buf.code_action, lsp_opts("LSP: Code actions"))
+        keymap("v", "<leader>ca", vim.lsp.buf.code_action, lsp_opts("LSP: Code actions"))
 
-    -- Diagnósticos
-    keymap("n", "<leader>dl", vim.diagnostic.open_float, lsp_opts("Diagnóstico: Ver línea"))
-    keymap("n", "[d", vim.diagnostic.goto_prev, lsp_opts("Diagnóstico: Anterior"))
-    keymap("n", "]d", vim.diagnostic.goto_next, lsp_opts("Diagnóstico: Siguiente"))
-    keymap("n", "<leader>dq", vim.diagnostic.setloclist, lsp_opts("Diagnóstico: Lista"))
-  end,
+        -- Diagnósticos
+        keymap("n", "<leader>dl", vim.diagnostic.open_float, lsp_opts("Diagnóstico: Ver línea"))
+        keymap("n", "[d", vim.diagnostic.goto_prev, lsp_opts("Diagnóstico: Anterior"))
+        keymap("n", "]d", vim.diagnostic.goto_next, lsp_opts("Diagnóstico: Siguiente"))
+        keymap("n", "<leader>dq", vim.diagnostic.setloclist, lsp_opts("Diagnóstico: Lista"))
+    end,
 })
 
 -- ============================================================================
