@@ -1,7 +1,7 @@
 {
-  "name": "vue-nuxt-snippets",
+  "name": "custom-snippets",
   "version": "1.0.0",
-  "description": "Snippets para Vue 3 y Nuxt 3",
+  "description": "Snippets para Vue 3, Nuxt 3, y Java/Spring Boot",
   "contributes": {
     "snippets": [
       {
@@ -15,6 +15,10 @@
       {
         "language": "javascript",
         "path": "./vue.json"
+      },
+      {
+        "language": "java",
+        "path": "./java.json"
       }
     ]
   }

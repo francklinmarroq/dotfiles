@@ -1,0 +1,721 @@
+{
+  "Java Main Class": {
+    "prefix": [
+      "main",
+      "psvm"
+    ],
+    "body": [
+      "public class ${1:Main} {",
+      "    public static void main(String[] args) {",
+      "        $0",
+      "    }",
+      "}"
+    ],
+    "description": "Java main class with main method"
+  },
+  "Spring Boot Application": {
+    "prefix": [
+      "springapp",
+      "sbapp"
+    ],
+    "body": [
+      "package ${1:com.example.demo};",
+      "",
+      "import org.springframework.boot.SpringApplication;",
+      "import org.springframework.boot.autoconfigure.SpringBootApplication;",
+      "",
+      "@SpringBootApplication",
+      "public class ${2:Application} {",
+      "",
+      "    public static void main(String[] args) {",
+      "        SpringApplication.run(${2:Application}.class, args);",
+      "    }",
+      "}"
+    ],
+    "description": "Spring Boot Application main class"
+  },
+  "REST Controller": {
+    "prefix": [
+      "restcontroller",
+      "controller"
+    ],
+    "body": [
+      "package ${1:com.example.demo.controller};",
+      "",
+      "import org.springframework.web.bind.annotation.*;",
+      "import org.springframework.http.ResponseEntity;",
+      "import lombok.RequiredArgsConstructor;",
+      "",
+      "@RestController",
+      "@RequestMapping(\"/api/${2:resource}\")\"",
+      "@RequiredArgsConstructor",
+      "public class ${3:Resource}Controller {",
+      "",
+      "    private final ${4:Resource}Service ${5:resource}Service;",
+      "",
+      "    @GetMapping",
+      "    public ResponseEntity<?> getAll() {",
+      "        return ResponseEntity.ok(${5:resource}Service.findAll());",
+      "    }",
+      "",
+      "    @GetMapping(\"/{id}\")",
+      "    public ResponseEntity<?> getById(@PathVariable Long id) {",
+      "        return ResponseEntity.ok(${5:resource}Service.findById(id));",
+      "    }",
+      "",
+      "    @PostMapping",
+      "    public ResponseEntity<?> create(@RequestBody ${4:Resource} ${5:resource}) {",
+      "        return ResponseEntity.ok(${5:resource}Service.save(${5:resource}));",
+      "    }",
+      "",
+      "    @PutMapping(\"/{id}\")",
+      "    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ${4:Resource} ${5:resource}) {",
+      "        return ResponseEntity.ok(${5:resource}Service.update(id, ${5:resource}));",
+      "    }",
+      "",
+      "    @DeleteMapping(\"/{id}\")",
+      "    public ResponseEntity<?> delete(@PathVariable Long id) {",
+      "        ${5:resource}Service.delete(id);",
+      "        return ResponseEntity.noContent().build();",
+      "    }",
+      "}"
+    ],
+    "description": "Spring Boot REST Controller with CRUD operations"
+  },
+  "Service Class": {
+    "prefix": [
+      "service",
+      "springservice"
+    ],
+    "body": [
+      "package ${1:com.example.demo.service};",
+      "",
+      "import org.springframework.stereotype.Service;",
+      "import org.springframework.transaction.annotation.Transactional;",
+      "import lombok.RequiredArgsConstructor;",
+      "import java.util.List;",
+      "",
+      "@Service",
+      "@RequiredArgsConstructor",
+      "@Transactional",
+      "public class ${2:Resource}Service {",
+      "",
+      "    private final ${2:Resource}Repository ${3:resource}Repository;",
+      "",
+      "    public List<${2:Resource}> findAll() {",
+      "        return ${3:resource}Repository.findAll();",
+      "    }",
+      "",
+      "    public ${2:Resource} findById(Long id) {",
+      "        return ${3:resource}Repository.findById(id)",
+      "            .orElseThrow(() -> new RuntimeException(\"${2:Resource} not found\"));",
+      "    }",
+      "",
+      "    public ${2:Resource} save(${2:Resource} ${3:resource}) {",
+      "        return ${3:resource}Repository.save(${3:resource});",
+      "    }",
+      "",
+      "    public ${2:Resource} update(Long id, ${2:Resource} ${3:resource}) {",
+      "        ${3:resource}.setId(id);",
+      "        return ${3:resource}Repository.save(${3:resource});",
+      "    }",
+      "",
+      "    public void delete(Long id) {",
+      "        ${3:resource}Repository.deleteById(id);",
+      "    }",
+      "}"
+    ],
+    "description": "Spring Boot Service class"
+  },
+  "JPA Repository": {
+    "prefix": [
+      "repository",
+      "jparepository"
+    ],
+    "body": [
+      "package ${1:com.example.demo.repository};",
+      "",
+      "import org.springframework.data.jpa.repository.JpaRepository;",
+      "import org.springframework.stereotype.Repository;",
+      "import java.util.Optional;",
+      "",
+      "@Repository",
+      "public interface ${2:Resource}Repository extends JpaRepository<${2:Resource}, ${3:Long}> {",
+      "",
+      "    $0",
+      "}"
+    ],
+    "description": "Spring Data JPA Repository"
+  },
+  "JPA Entity": {
+    "prefix": [
+      "entity",
+      "jpaentity"
+    ],
+    "body": [
+      "package ${1:com.example.demo.entity};",
+      "",
+      "import jakarta.persistence.*;",
+      "import lombok.*;",
+      "import java.time.LocalDateTime;",
+      "",
+      "@Entity",
+      "@Table(name = \"${2:table_name}\")",
+      "@Data",
+      "@NoArgsConstructor",
+      "@AllArgsConstructor",
+      "@Builder",
+      "public class ${3:EntityName} {",
+      "",
+      "    @Id",
+      "    @GeneratedValue(strategy = GenerationType.IDENTITY)",
+      "    private Long id;",
+      "",
+      "    @Column(nullable = false)",
+      "    private String ${4:fieldName};",
+      "",
+      "    @Column(name = \"created_at\")",
+      "    private LocalDateTime createdAt;",
+      "",
+      "    @Column(name = \"updated_at\")",
+      "    private LocalDateTime updatedAt;",
+      "",
+      "    @PrePersist",
+      "    protected void onCreate() {",
+      "        createdAt = LocalDateTime.now();",
+      "    }",
+      "",
+      "    @PreUpdate",
+      "    protected void onUpdate() {",
+      "        updatedAt = LocalDateTime.now();",
+      "    }",
+      "}"
+    ],
+    "description": "JPA Entity with Lombok"
+  },
+  "DTO Class": {
+    "prefix": [
+      "dto",
+      "record"
+    ],
+    "body": [
+      "package ${1:com.example.demo.dto};",
+      "",
+      "import lombok.*;",
+      "",
+      "@Data",
+      "@NoArgsConstructor",
+      "@AllArgsConstructor",
+      "@Builder",
+      "public class ${2:Name}DTO {",
+      "",
+      "    private ${3:String} ${4:field};",
+      "    $0",
+      "}"
+    ],
+    "description": "Data Transfer Object class"
+  },
+  "Record DTO": {
+    "prefix": [
+      "recorddto",
+      "jrecord"
+    ],
+    "body": [
+      "package ${1:com.example.demo.dto};",
+      "",
+      "public record ${2:Name}DTO(",
+      "    ${3:String} ${4:field}",
+      ") {}"
+    ],
+    "description": "Java Record as DTO"
+  },
+  "Configuration Class": {
+    "prefix": [
+      "config",
+      "configuration"
+    ],
+    "body": [
+      "package ${1:com.example.demo.config};",
+      "",
+      "import org.springframework.context.annotation.Bean;",
+      "import org.springframework.context.annotation.Configuration;",
+      "",
+      "@Configuration",
+      "public class ${2:App}Config {",
+      "",
+      "    @Bean",
+      "    public ${3:Object} ${4:beanName}() {",
+      "        return new ${3:Object}();",
+      "    }",
+      "}"
+    ],
+    "description": "Spring Configuration class"
+  },
+  "Exception Handler": {
+    "prefix": [
+      "exceptionhandler",
+      "controlleradvice"
+    ],
+    "body": [
+      "package ${1:com.example.demo.exception};",
+      "",
+      "import org.springframework.http.HttpStatus;",
+      "import org.springframework.http.ResponseEntity;",
+      "import org.springframework.web.bind.annotation.ExceptionHandler;",
+      "import org.springframework.web.bind.annotation.RestControllerAdvice;",
+      "import java.time.LocalDateTime;",
+      "import java.util.Map;",
+      "",
+      "@RestControllerAdvice",
+      "public class GlobalExceptionHandler {",
+      "",
+      "    @ExceptionHandler(RuntimeException.class)",
+      "    public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {",
+      "        return ResponseEntity",
+      "            .status(HttpStatus.INTERNAL_SERVER_ERROR)",
+      "            .body(Map.of(",
+      "                \"timestamp\", LocalDateTime.now(),",
+      "                \"message\", ex.getMessage(),",
+      "                \"status\", HttpStatus.INTERNAL_SERVER_ERROR.value()",
+      "            ));",
+      "    }",
+      "",
+      "    @ExceptionHandler(${2:ResourceNotFoundException}.class)",
+      "    public ResponseEntity<?> handleNotFoundException(${2:ResourceNotFoundException} ex) {",
+      "        return ResponseEntity",
+      "            .status(HttpStatus.NOT_FOUND)",
+      "            .body(Map.of(",
+      "                \"timestamp\", LocalDateTime.now(),",
+      "                \"message\", ex.getMessage(),",
+      "                \"status\", HttpStatus.NOT_FOUND.value()",
+      "            ));",
+      "    }",
+      "}"
+    ],
+    "description": "Global Exception Handler"
+  },
+  "Custom Exception": {
+    "prefix": [
+      "customexception",
+      "exception"
+    ],
+    "body": [
+      "package ${1:com.example.demo.exception};",
+      "",
+      "import org.springframework.http.HttpStatus;",
+      "import org.springframework.web.bind.annotation.ResponseStatus;",
+      "",
+      "@ResponseStatus(HttpStatus.${2:NOT_FOUND})",
+      "public class ${3:ResourceNotFoundException} extends RuntimeException {",
+      "",
+      "    public ${3:ResourceNotFoundException}(String message) {",
+      "        super(message);",
+      "    }",
+      "",
+      "    public ${3:ResourceNotFoundException}(String message, Throwable cause) {",
+      "        super(message, cause);",
+      "    }",
+      "}"
+    ],
+    "description": "Custom Runtime Exception"
+  },
+  "JUnit Test Class": {
+    "prefix": [
+      "test",
+      "junit"
+    ],
+    "body": [
+      "package ${1:com.example.demo};",
+      "",
+      "import org.junit.jupiter.api.*;",
+      "import static org.junit.jupiter.api.Assertions.*;",
+      "",
+      "class ${2:ClassName}Test {",
+      "",
+      "    @BeforeEach",
+      "    void setUp() {",
+      "        $0",
+      "    }",
+      "",
+      "    @Test",
+      "    @DisplayName(\"${3:Should do something}\")",
+      "    void ${4:testMethod}() {",
+      "        // Given",
+      "",
+      "        // When",
+      "",
+      "        // Then",
+      "    }",
+      "}"
+    ],
+    "description": "JUnit 5 Test class"
+  },
+  "Spring Boot Test": {
+    "prefix": [
+      "springtest",
+      "integrationtest"
+    ],
+    "body": [
+      "package ${1:com.example.demo};",
+      "",
+      "import org.junit.jupiter.api.*;",
+      "import org.springframework.beans.factory.annotation.Autowired;",
+      "import org.springframework.boot.test.context.SpringBootTest;",
+      "import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;",
+      "import org.springframework.test.web.servlet.MockMvc;",
+      "import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;",
+      "import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;",
+      "",
+      "@SpringBootTest",
+      "@AutoConfigureMockMvc",
+      "class ${2:ClassName}Test {",
+      "",
+      "    @Autowired",
+      "    private MockMvc mockMvc;",
+      "",
+      "    @Test",
+      "    @DisplayName(\"${3:Should return OK}\")",
+      "    void ${4:testEndpoint}() throws Exception {",
+      "        mockMvc.perform(get(\"/api/${5:endpoint}\"))",
+      "            .andExpect(status().isOk());",
+      "    }",
+      "}"
+    ],
+    "description": "Spring Boot Integration Test"
+  },
+  "MockMvc Test": {
+    "prefix": [
+      "mockmvc",
+      "webmvctest"
+    ],
+    "body": [
+      "package ${1:com.example.demo.controller};",
+      "",
+      "import org.junit.jupiter.api.*;",
+      "import org.springframework.beans.factory.annotation.Autowired;",
+      "import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;",
+      "import org.springframework.boot.test.mock.mockito.MockBean;",
+      "import org.springframework.test.web.servlet.MockMvc;",
+      "import org.springframework.http.MediaType;",
+      "import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;",
+      "import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;",
+      "import static org.mockito.Mockito.*;",
+      "",
+      "@WebMvcTest(${2:Resource}Controller.class)",
+      "class ${2:Resource}ControllerTest {",
+      "",
+      "    @Autowired",
+      "    private MockMvc mockMvc;",
+      "",
+      "    @MockBean",
+      "    private ${2:Resource}Service ${3:resource}Service;",
+      "",
+      "    @Test",
+      "    @DisplayName(\"GET /api/${4:resources} - Success\")",
+      "    void testGetAll() throws Exception {",
+      "        mockMvc.perform(get(\"/api/${4:resources}\")",
+      "                .contentType(MediaType.APPLICATION_JSON))",
+      "            .andExpect(status().isOk());",
+      "    }",
+      "}"
+    ],
+    "description": "MockMvc Controller Test"
+  },
+  "GetMapping": {
+    "prefix": [
+      "getmap",
+      "getmapping"
+    ],
+    "body": [
+      "@GetMapping(\"${1:/path}\")",
+      "public ResponseEntity<${2:Object}> ${3:methodName}(${4}) {",
+      "    $0",
+      "    return ResponseEntity.ok(${5:result});",
+      "}"
+    ],
+    "description": "GET endpoint"
+  },
+  "PostMapping": {
+    "prefix": [
+      "postmap",
+      "postmapping"
+    ],
+    "body": [
+      "@PostMapping(\"${1:/path}\")",
+      "public ResponseEntity<${2:Object}> ${3:methodName}(@RequestBody ${4:RequestDTO} request) {",
+      "    $0",
+      "    return ResponseEntity.status(HttpStatus.CREATED).body(${5:result});",
+      "}"
+    ],
+    "description": "POST endpoint"
+  },
+  "PutMapping": {
+    "prefix": [
+      "putmap",
+      "putmapping"
+    ],
+    "body": [
+      "@PutMapping(\"${1:/{id}}\")",
+      "public ResponseEntity<${2:Object}> ${3:methodName}(@PathVariable Long id, @RequestBody ${4:RequestDTO} request) {",
+      "    $0",
+      "    return ResponseEntity.ok(${5:result});",
+      "}"
+    ],
+    "description": "PUT endpoint"
+  },
+  "DeleteMapping": {
+    "prefix": [
+      "deletemap",
+      "deletemapping"
+    ],
+    "body": [
+      "@DeleteMapping(\"${1:/{id}}\")",
+      "public ResponseEntity<Void> ${2:methodName}(@PathVariable Long id) {",
+      "    $0",
+      "    return ResponseEntity.noContent().build();",
+      "}"
+    ],
+    "description": "DELETE endpoint"
+  },
+  "Autowired Field": {
+    "prefix": [
+      "autowired",
+      "inject"
+    ],
+    "body": [
+      "@Autowired",
+      "private ${1:Type} ${2:fieldName};"
+    ],
+    "description": "Autowired field injection"
+  },
+  "Slf4j Logger": {
+    "prefix": [
+      "log",
+      "logger",
+      "slf4j"
+    ],
+    "body": [
+      "private static final Logger log = LoggerFactory.getLogger(${1:ClassName}.class);"
+    ],
+    "description": "SLF4J Logger"
+  },
+  "Log Debug": {
+    "prefix": [
+      "logd",
+      "debug"
+    ],
+    "body": "log.debug(\"${1:message}\", ${2:args});",
+    "description": "Debug log"
+  },
+  "Log Info": {
+    "prefix": [
+      "logi",
+      "info"
+    ],
+    "body": "log.info(\"${1:message}\", ${2:args});",
+    "description": "Info log"
+  },
+  "Log Error": {
+    "prefix": [
+      "loge",
+      "error"
+    ],
+    "body": "log.error(\"${1:message}\", ${2:exception});",
+    "description": "Error log"
+  },
+  "Try-Catch": {
+    "prefix": [
+      "try",
+      "trycatch"
+    ],
+    "body": [
+      "try {",
+      "    $1",
+      "} catch (${2:Exception} e) {",
+      "    log.error(\"${3:Error message}\", e);",
+      "    $0",
+      "}"
+    ],
+    "description": "Try-catch block"
+  },
+  "Optional OrElseThrow": {
+    "prefix": [
+      "orelse",
+      "orelsethrow"
+    ],
+    "body": ".orElseThrow(() -> new ${1:RuntimeException}(\"${2:Not found}\"))",
+    "description": "Optional orElseThrow"
+  },
+  "Stream Map": {
+    "prefix": [
+      "smap",
+      "streammap"
+    ],
+    "body": ".stream().map(${1:item} -> ${2:item}).collect(Collectors.toList())",
+    "description": "Stream map and collect"
+  },
+  "Stream Filter": {
+    "prefix": [
+      "sfilter",
+      "streamfilter"
+    ],
+    "body": ".stream().filter(${1:item} -> ${2:condition}).collect(Collectors.toList())",
+    "description": "Stream filter and collect"
+  },
+  "Bean Definition": {
+    "prefix": [
+      "bean"
+    ],
+    "body": [
+      "@Bean",
+      "public ${1:Type} ${2:beanName}() {",
+      "    return new ${1:Type}($3);",
+      "}"
+    ],
+    "description": "Spring Bean definition"
+  },
+  "Value Property": {
+    "prefix": [
+      "value",
+      "property"
+    ],
+    "body": "@Value(\"\\${${1:property.name}}\")",
+    "description": "Inject property value"
+  },
+  "Scheduled Task": {
+    "prefix": [
+      "scheduled",
+      "cron"
+    ],
+    "body": [
+      "@Scheduled(${1|fixedRate=1000,fixedDelay=1000,cron=\"0 0 * * * *\"|})",
+      "public void ${2:scheduledTask}() {",
+      "    $0",
+      "}"
+    ],
+    "description": "Scheduled task method"
+  },
+  "Async Method": {
+    "prefix": [
+      "async"
+    ],
+    "body": [
+      "@Async",
+      "public CompletableFuture<${1:Void}> ${2:asyncMethod}() {",
+      "    $0",
+      "    return CompletableFuture.completedFuture(${3:null});",
+      "}"
+    ],
+    "description": "Async method"
+  },
+  "Transactional": {
+    "prefix": [
+      "transactional",
+      "tx"
+    ],
+    "body": "@Transactional${1|(,readOnly = true)|}",
+    "description": "Transactional annotation"
+  },
+  "OneToMany Relationship": {
+    "prefix": [
+      "onetomany",
+      "o2m"
+    ],
+    "body": [
+      "@OneToMany(mappedBy = \"${1:field}\", cascade = CascadeType.ALL, orphanRemoval = true)",
+      "private List<${2:Entity}> ${3:entities} = new ArrayList<>();"
+    ],
+    "description": "JPA OneToMany relationship"
+  },
+  "ManyToOne Relationship": {
+    "prefix": [
+      "manytoone",
+      "m2o"
+    ],
+    "body": [
+      "@ManyToOne(fetch = FetchType.LAZY)",
+      "@JoinColumn(name = \"${1:field}_id\")",
+      "private ${2:Entity} ${1:field};"
+    ],
+    "description": "JPA ManyToOne relationship"
+  },
+  "ManyToMany Relationship": {
+    "prefix": [
+      "manytomany",
+      "m2m"
+    ],
+    "body": [
+      "@ManyToMany",
+      "@JoinTable(",
+      "    name = \"${1:join_table}\",",
+      "    joinColumns = @JoinColumn(name = \"${2:this}_id\"),",
+      "    inverseJoinColumns = @JoinColumn(name = \"${3:other}_id\")",
+      ")",
+      "private Set<${4:Entity}> ${5:entities} = new HashSet<>();"
+    ],
+    "description": "JPA ManyToMany relationship"
+  },
+  "Security Config": {
+    "prefix": [
+      "securityconfig",
+      "springsecurity"
+    ],
+    "body": [
+      "package ${1:com.example.demo.config};",
+      "",
+      "import org.springframework.context.annotation.Bean;",
+      "import org.springframework.context.annotation.Configuration;",
+      "import org.springframework.security.config.annotation.web.builders.HttpSecurity;",
+      "import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;",
+      "import org.springframework.security.web.SecurityFilterChain;",
+      "",
+      "@Configuration",
+      "@EnableWebSecurity",
+      "public class SecurityConfig {",
+      "",
+      "    @Bean",
+      "    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {",
+      "        http",
+      "            .csrf(csrf -> csrf.disable())",
+      "            .authorizeHttpRequests(auth -> auth",
+      "                .requestMatchers(\"/api/public/**\").permitAll()",
+      "                .anyRequest().authenticated()",
+      "            );",
+      "",
+      "        return http.build();",
+      "    }",
+      "}"
+    ],
+    "description": "Spring Security Configuration"
+  },
+  "RestTemplate Config": {
+    "prefix": [
+      "resttemplate"
+    ],
+    "body": [
+      "@Bean",
+      "public RestTemplate restTemplate(RestTemplateBuilder builder) {",
+      "    return builder",
+      "        .setConnectTimeout(Duration.ofSeconds(${1:5}))",
+      "        .setReadTimeout(Duration.ofSeconds(${2:5}))",
+      "        .build();",
+      "}"
+    ],
+    "description": "RestTemplate Bean configuration"
+  },
+  "WebClient Config": {
+    "prefix": [
+      "webclient"
+    ],
+    "body": [
+      "@Bean",
+      "public WebClient webClient() {",
+      "    return WebClient.builder()",
+      "        .baseUrl(\"${1:http://localhost:8080}\")",
+      "        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)",
+      "        .build();",
+      "}"
+    ],
+    "description": "WebClient Bean configuration"
+  }
+}
