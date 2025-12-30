@@ -58,7 +58,7 @@ opt.fileencoding = "utf-8" -- Encoding de archivos
 -- Rendimiento y Tiempos
 -- ============================================================================
 opt.updatetime = 200  -- Tiempo para CursorHold (ms) - importante para LSP
-opt.timeoutlen = 300  -- Tiempo para secuencias de teclas (ms)
+opt.timeoutlen = 500  -- Tiempo para secuencias de teclas (ms)
 opt.redrawtime = 1500 -- Tiempo máximo para resaltado de sintaxis
 
 -- ============================================================================

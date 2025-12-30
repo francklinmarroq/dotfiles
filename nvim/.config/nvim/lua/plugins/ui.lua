@@ -388,6 +388,7 @@ return {
 
             -- Registrar grupos de keymaps
             wk.add({
+                { "<leader>i", group = "AI (Gemini)" },
                 { "<leader>b", group = "Buffer" },
                 { "<leader>c", group = "Code" },
                 { "<leader>d", group = "Diagnósticos" },
