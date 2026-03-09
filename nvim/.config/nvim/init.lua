@@ -43,7 +43,7 @@ require("lazy").setup({
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
-        colorscheme = "tokyonight",
+        colorscheme = "ayu-dark",
       },
     },
     -- Importar extras de LazyVim para Vue/TypeScript
@@ -59,7 +59,7 @@ require("lazy").setup({
     lazy = false,
     version = false,
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { "ayu-dark", "habamax" } },
   checker = {
     enabled = true,
     notify = false,

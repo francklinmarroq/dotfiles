@@ -5,51 +5,19 @@
 
 return {
   -- ============================================================================
-  -- tokyonight.nvim - Tema principal
+  -- neovim-ayu - Tema principal (ayu dark)
   -- ============================================================================
   {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {
-      style = "night",       -- Opciones: storm, moon, night, day
-      transparent = false,
-      terminal_colors = true,
-      styles = {
-        comments = { italic = true },
-        keywords = { italic = true },
-        functions = {},
-        variables = {},
-        sidebars = "dark",
-        floats = "dark",
-      },
-      sidebars = { "qf", "help", "terminal", "packer", "neo-tree" },
-      -- Personalización de colores para Vue/TypeScript
-      on_highlights = function(hl, c)
-        -- Mejor contraste para componentes Vue
-        hl["@tag"] = { fg = c.red }
-        hl["@tag.attribute"] = { fg = c.yellow }
-        hl["@tag.delimiter"] = { fg = c.dark5 }
-        -- TypeScript/JavaScript
-        hl["@type.typescript"] = { fg = c.blue1 }
-        hl["@constructor.typescript"] = { fg = c.magenta }
-      end,
-    },
-    config = function(_, opts)
-      require("tokyonight").setup(opts)
-      vim.cmd([[colorscheme tokyonight]])
-    end,
-  },
-
-  -- ============================================================================
-  -- dracula.nvim - Dracula theme
-  -- ============================================================================
-  {
-    "dracula/vim",
+    "Shatur/neovim-ayu",
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd([[colorscheme dracula]])
+      require("ayu").setup({
+        mirage = false,
+        terminal = true,
+        overrides = {},
+      })
+      vim.cmd([[colorscheme ayu-dark]])
     end,
   },
 
