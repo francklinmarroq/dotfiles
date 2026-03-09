@@ -203,7 +203,10 @@ return {
                     return
                 end
 
-                -- Desactivar si hay una variable global
+                -- Respetar la variable de LazyVim (vim.g.autoformat) y la propia (vim.g.disable_autoformat)
+                if vim.g.autoformat == false or vim.b[bufnr].autoformat == false then
+                    return
+                end
                 if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
                     return
                 end
@@ -220,14 +223,17 @@ return {
         -- ====================================================================
         init = function()
             -- Crear comando para toggle de autoformato
+            -- Usa vim.g.autoformat (LazyVim) como fuente de verdad
             vim.api.nvim_create_user_command("FormatToggle", function(args)
                 if args.bang then
-                    vim.b.disable_autoformat = not vim.b.disable_autoformat
-                    local status = vim.b.disable_autoformat and "desactivado" or "activado"
+                    -- Buffer-local: alterna vim.b.autoformat respetando la convención de LazyVim
+                    vim.b.autoformat = vim.b.autoformat == false and nil or false
+                    local status = vim.b.autoformat == false and "desactivado" or "activado"
                     vim.notify("Autoformato (buffer): " .. status, vim.log.levels.INFO)
                 else
-                    vim.g.disable_autoformat = not vim.g.disable_autoformat
-                    local status = vim.g.disable_autoformat and "desactivado" or "activado"
+                    -- Global: alterna vim.g.autoformat (LazyVim lo inicializa en true)
+                    vim.g.autoformat = vim.g.autoformat == false and true or false
+                    local status = vim.g.autoformat == false and "desactivado" or "activado"
                     vim.notify("Autoformato (global): " .. status, vim.log.levels.INFO)
                 end
             end, {
