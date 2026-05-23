@@ -126,6 +126,40 @@ return {
                 emmet_ls = {
                     filetypes = { "html", "css", "scss", "vue", "javascriptreact", "typescriptreact" },
                 },
+
+                -- ====================================================================
+                -- Kotlin Language Server - Para desarrollo Kotlin/Spring Boot
+                -- ====================================================================
+                kotlin_language_server = {
+                    filetypes = { "kotlin", "kts" },
+                    root_dir = function(fname)
+                        return vim.fs.root(fname, {
+                            ".git",
+                            "build.gradle",
+                            "build.gradle.kts",
+                            "pom.xml",
+                            "settings.gradle",
+                            "settings.gradle.kts",
+                        })
+                    end,
+                    settings = {
+                        kotlin = {
+                            compiler = {
+                                jvm = {
+                                    target = "17",
+                                },
+                            },
+                            completion = {
+                                snippets = {
+                                    enabled = true,
+                                },
+                            },
+                            linting = {
+                                enabled = true,
+                            },
+                        },
+                    },
+                },
             },
 
             -- ====================================================================

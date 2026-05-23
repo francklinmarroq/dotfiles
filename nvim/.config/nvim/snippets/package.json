@@ -1,7 +1,7 @@
 {
   "name": "custom-snippets",
   "version": "1.0.0",
-  "description": "Snippets para Vue 3, Nuxt 3, y Java/Spring Boot",
+  "description": "Snippets para Vue 3, Nuxt 3, Java/Spring Boot, y Kotlin/Spring Boot",
   "contributes": {
     "snippets": [
       {
@@ -19,6 +19,14 @@
       {
         "language": "java",
         "path": "./java.json"
+      },
+      {
+        "language": "kotlin",
+        "path": "./kotlin-springboot.json"
+      },
+      {
+        "language": "kts",
+        "path": "./kotlin-springboot.json"
       }
     ]
   }

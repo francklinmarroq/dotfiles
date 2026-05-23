@@ -63,6 +63,9 @@ return {
                 "vimdoc",
                 "dockerfile",
                 "graphql",
+                -- Java/Kotlin (Spring Boot)
+                "java",
+                "kotlin",
                 "prisma",
                 "sql",
             },

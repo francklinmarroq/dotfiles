@@ -320,6 +320,41 @@ return {
                 }),
             })
 
+            -- Configuración específica para archivos Java (Spring Boot)
+            cmp.setup.filetype("java", {
+                sources = cmp.config.sources({
+                    { name = "nvim_lsp",                priority = 1000 },
+                    { name = "nvim_lsp_signature_help", priority = 900 },
+                    { name = "luasnip",                 priority = 800 },
+                    { name = "path",                    priority = 700 },
+                }, {
+                    { name = "buffer", keyword_length = 3 },
+                }),
+            })
+
+            -- Configuración específica para archivos Kotlin (Spring Boot)
+            cmp.setup.filetype("kotlin", {
+                sources = cmp.config.sources({
+                    { name = "nvim_lsp",                priority = 1000 },
+                    { name = "nvim_lsp_signature_help", priority = 900 },
+                    { name = "luasnip",                 priority = 800 },
+                    { name = "path",                    priority = 700 },
+                }, {
+                    { name = "buffer", keyword_length = 3 },
+                }),
+            })
+
+            -- Configuración para archivos .kts (Kotlin Script / Gradle)
+            cmp.setup.filetype("kts", {
+                sources = cmp.config.sources({
+                    { name = "nvim_lsp",                priority = 1000 },
+                    { name = "luasnip",                 priority = 800 },
+                    { name = "path",                    priority = 700 },
+                }, {
+                    { name = "buffer", keyword_length = 3 },
+                }),
+            })
+
             -- Highlight groups personalizados
             vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
         end,

@@ -125,6 +125,10 @@ return {
                 -- GraphQL
                 graphql = { "prettier" },
 
+                -- Kotlin - ktfmt
+                kotlin = { "ktfmt" },
+                kts = { "ktfmt" },
+
                 -- Shell
                 sh = { "shfmt" },
                 bash = { "shfmt" },
@@ -191,6 +195,13 @@ return {
                 shfmt = {
                     prepend_args = { "-i", "2", "-ci" },
                 },
+
+                ktfmt = {
+                    prepend_args = {
+                        "--kotlin-style",
+                        "--width", "120",
+                    },
+                },
             },
 
             -- ====================================================================
@@ -198,7 +209,7 @@ return {
             -- ====================================================================
             format_on_save = function(bufnr)
                 -- Desactivar para ciertos filetypes
-                local ignore_filetypes = { "sql", "java" }
+                local ignore_filetypes = { "sql", "java", "kotlin", "kts" }
                 if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
                     return
                 end
@@ -288,6 +299,18 @@ return {
                 desc = "Info de formateo",
             },
         },
+    },
+
+    -- ============================================================================
+    -- Mason - Ensure Kotlin tools
+    -- ============================================================================
+    {
+        "mason-org/mason.nvim",
+        opts = function(_, opts)
+            if type(opts.ensure_installed) == "table" then
+                vim.list_extend(opts.ensure_installed, { "ktfmt" })
+            end
+        end,
     },
 
     -- ============================================================================

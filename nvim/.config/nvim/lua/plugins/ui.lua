@@ -69,7 +69,7 @@ return {
           lualine_c = {
             {
               "filename",
-              path = 1,               -- Mostrar ruta relativa
+              path = 1, -- Mostrar ruta relativa
               symbols = {
                 modified = "●",
                 readonly = "",
@@ -106,7 +106,7 @@ return {
             },
           },
           lualine_y = {
-            { "filetype",   icon_only = true },
+            { "filetype", icon_only = true },
             { "encoding" },
             { "fileformat", symbols = { unix = "", dos = "", mac = "" } },
           },
@@ -191,13 +191,13 @@ return {
       },
     },
     keys = {
-      { "<leader>bp", "<cmd>BufferLineTogglePin<cr>",            desc = "Pin buffer" },
+      { "<leader>bp", "<cmd>BufferLineTogglePin<cr>", desc = "Pin buffer" },
       { "<leader>bP", "<cmd>BufferLineGroupClose ungrouped<cr>", desc = "Cerrar buffers no pinneados" },
-      { "<leader>bo", "<cmd>BufferLineCloseOthers<cr>",          desc = "Cerrar otros buffers" },
-      { "<leader>br", "<cmd>BufferLineCloseRight<cr>",           desc = "Cerrar buffers a la derecha" },
-      { "<leader>bl", "<cmd>BufferLineCloseLeft<cr>",            desc = "Cerrar buffers a la izquierda" },
-      { "[b",         "<cmd>BufferLineCyclePrev<cr>",            desc = "Buffer anterior" },
-      { "]b",         "<cmd>BufferLineCycleNext<cr>",            desc = "Buffer siguiente" },
+      { "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", desc = "Cerrar otros buffers" },
+      { "<leader>br", "<cmd>BufferLineCloseRight<cr>", desc = "Cerrar buffers a la derecha" },
+      { "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", desc = "Cerrar buffers a la izquierda" },
+      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Buffer anterior" },
+      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Buffer siguiente" },
     },
   },
 
@@ -328,10 +328,34 @@ return {
       },
     },
     keys = {
-      { "<leader>nl", function() require("noice").cmd("last") end,    desc = "Último mensaje de Noice" },
-      { "<leader>nh", function() require("noice").cmd("history") end, desc = "Historial de Noice" },
-      { "<leader>na", function() require("noice").cmd("all") end,     desc = "Todos los mensajes de Noice" },
-      { "<leader>nd", function() require("noice").cmd("dismiss") end, desc = "Descartar mensajes de Noice" },
+      {
+        "<leader>nl",
+        function()
+          require("noice").cmd("last")
+        end,
+        desc = "Último mensaje de Noice",
+      },
+      {
+        "<leader>nh",
+        function()
+          require("noice").cmd("history")
+        end,
+        desc = "Historial de Noice",
+      },
+      {
+        "<leader>na",
+        function()
+          require("noice").cmd("all")
+        end,
+        desc = "Todos los mensajes de Noice",
+      },
+      {
+        "<leader>nd",
+        function()
+          require("noice").cmd("dismiss")
+        end,
+        desc = "Descartar mensajes de Noice",
+      },
     },
   },
 
@@ -397,10 +421,10 @@ return {
       "MunifTanjim/nui.nvim",
     },
     keys = {
-      { "<leader>e",  "<cmd>Neotree toggle<cr>",     desc = "Explorador de archivos" },
-      { "<leader>E",  "<cmd>Neotree reveal<cr>",     desc = "Revelar archivo actual" },
+      { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Explorador de archivos" },
+      { "<leader>E", "<cmd>Neotree reveal<cr>", desc = "Revelar archivo actual" },
       { "<leader>ge", "<cmd>Neotree git_status<cr>", desc = "Git status en Neo-tree" },
-      { "<leader>be", "<cmd>Neotree buffers<cr>",    desc = "Buffers en Neo-tree" },
+      { "<leader>be", "<cmd>Neotree buffers<cr>", desc = "Buffers en Neo-tree" },
     },
     opts = {
       close_if_last_window = true,
@@ -425,15 +449,15 @@ return {
         },
         git_status = {
           symbols = {
-            added     = "",
-            modified  = "",
-            deleted   = "",
-            renamed   = "󰁕",
+            added = "",
+            modified = "",
+            deleted = "",
+            renamed = "󰁕",
             untracked = "",
-            ignored   = "",
-            unstaged  = "󰄱",
-            staged    = "",
-            conflict  = "",
+            ignored = "",
+            unstaged = "󰄱",
+            staged = "",
+            conflict = "",
           },
         },
       },
@@ -444,7 +468,7 @@ return {
         filtered_items = {
           visible = true,
           hide_dotfiles = false,
-          hide_gitignored = true,
+          hide_gitignored = false,
           hide_by_name = {
             "node_modules",
             ".git",
@@ -523,10 +547,22 @@ return {
       },
     },
     keys = {
-      { "]t",         function() require("todo-comments").jump_next() end, desc = "Siguiente TODO" },
-      { "[t",         function() require("todo-comments").jump_prev() end, desc = "TODO anterior" },
-      { "<leader>ft", "<cmd>TodoTelescope<cr>",                            desc = "Buscar TODOs" },
-      { "<leader>fT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Buscar TODO/FIX/FIXME" },
+      {
+        "]t",
+        function()
+          require("todo-comments").jump_next()
+        end,
+        desc = "Siguiente TODO",
+      },
+      {
+        "[t",
+        function()
+          require("todo-comments").jump_prev()
+        end,
+        desc = "TODO anterior",
+      },
+      { "<leader>ft", "<cmd>TodoTelescope<cr>", desc = "Buscar TODOs" },
+      { "<leader>fT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Buscar TODO/FIX/FIXME" },
     },
   },
 
