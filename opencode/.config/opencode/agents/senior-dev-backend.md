@@ -11,7 +11,7 @@ color: "#E74C3C"
 permission:
   edit: allow
   write: allow
-  bash: ask
+  bash: allow
   webfetch: allow
   task:
     "*": deny
