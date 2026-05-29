@@ -5,7 +5,7 @@ description: >-
   Nuxt, and frontend design.
 mode: subagent
 hidden: true
-model: opencode-go/qwen3.6-plus
+model: opencode-go/qwen3.7-max
 temperature: 0.2
 color: "#E67E22"
 permission:
