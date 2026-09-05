@@ -75,9 +75,32 @@ Also review `packages/hardware.txt` before installing: it holds `intel-ucode`
 
 ## Day-to-day
 
-    stow -R <package>     # re-link after adding files to a package
-    stow -D <package>     # unlink
-    stow -n -v <package>  # dry run
+**First time on a machine, always go through `./install.sh`.** Running `stow`
+directly on an un-stowed machine fails with a wall of
+
+    cannot stow ... over existing target ... since neither a link nor a
+    directory and --adopt not specified
+    All operations aborted.
+
+That is stow working correctly: it will not clobber a real file, and it aborts
+the whole run rather than linking half of it. Nothing is modified when this
+happens. `install.sh` exists to move those files to
+`~/.dotfiles-backup/<timestamp>/` first.
+
+> **Never use `stow --adopt` with this repo.** It resolves conflicts backwards —
+> it moves the *live* file into the repo, overwriting the repo's copy. On a new
+> machine that replaces your real config with that machine's stock Omarchy
+> defaults and stages the loss as a commit. `install.sh` keeps the repo
+> authoritative, which is the direction you want.
+
+Once a machine is stowed, these are safe:
+
+    stow -d ~/dotfiles -t ~ -R <package>   # re-link after adding files
+    stow -d ~/dotfiles -t ~ -D <package>   # unlink
+    stow -d ~/dotfiles -t ~ -n -v <package># dry run
+
+`-R` is only strictly needed when a pull adds *new* files; existing symlinks
+already resolve to updated content.
 
 Since your configs are symlinks, editing `~/.config/hypr/input.lua` edits the
 repo. Commit from `~/dotfiles` as normal.
