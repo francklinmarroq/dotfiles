@@ -1,0 +1,74 @@
+#!/bin/bash
+# Check the dotfiles repo against its remote shortly after login.
+#
+# Installed automatically: this file lives inside the `omarchy` stow package,
+# so `install.sh` links it into ~/.config/omarchy/hooks/post-boot.d/ on every
+# machine. omarchy-hook runs everything here that is not named *.sample.
+#
+# It never modifies anything on its own unless the pull is a clean
+# fast-forward AND an ssh agent is already holding your key. At boot that is
+# usually false -- the agent has no key yet -- so the normal path is a
+# notification you click to finish the job in a real terminal, where a
+# passphrase prompt can actually be answered.
+
+set -uo pipefail
+
+# Locate the repo through this file's own symlink: stow points it back at the
+# working tree, wherever the user cloned it (~/dotfiles, ~/Work/dotfiles, ...).
+SELF="$(readlink -f "${BASH_SOURCE[0]}")"
+REPO="${SELF%/omarchy/.config/omarchy/hooks/post-boot.d/*}"
+SYNC="$REPO/bin/dot-sync"
+
+# Not stowed (a plain copy), or the repo moved. Nothing sensible to do.
+[ -x "$SYNC" ] || exit 0
+
+notify() { # notify <urgency> <glyph> <headline> <body> [exec...]
+  local u=$1 g=$2 h=$3 b=$4; shift 4
+  if [ $# -gt 0 ]; then
+    omarchy-notification-send -u "$u" -g "$g" "$h" "$b" --exec "$@"
+  else
+    omarchy-notification-send -u "$u" -g "$g" "$h" "$b"
+  fi
+}
+
+open_terminal="omarchy-launch-floating-terminal-with-presentation $SYNC"
+
+# Network is rarely up 2s after login (autostart.lua sleeps 2 then fires this).
+# Retry briefly rather than reporting a false "unreachable".
+for _ in 1 2 3 4 5 6; do
+  out=$("$SYNC" --check 2>/dev/null); rc=$?
+  [ "$rc" -ne 3 ] && break
+  sleep 10
+done
+
+status=$(sed -n 's/.*STATUS=\([a-z]*\).*/\1/p' <<<"$out")
+behind=$(sed -n 's/.*BEHIND=\([0-9]*\).*/\1/p' <<<"$out")
+dirty=$(sed -n 's/.*DIRTY=\([0-9]*\).*/\1/p' <<<"$out")
+
+case "$status" in
+  behind)
+    # Clean tree, clean fast-forward. Apply it now if the agent can talk to the
+    # remote unattended; otherwise offer one click to do it in a terminal.
+    if ssh-add -l >/dev/null 2>&1 && "$SYNC" >/dev/null 2>&1; then
+      notify low "󰓦" "Dotfiles synced" "Pulled $behind commit(s) and re-stowed."
+    else
+      notify normal "󰓦" "Dotfiles behind" \
+        "$behind commit(s) to pull. Click to sync." $open_terminal
+    fi
+    ;;
+  dirty)
+    notify normal "󰊢" "Dotfiles need attention" \
+      "$behind to pull, $dirty uncommitted. Click to review." $open_terminal
+    ;;
+  diverged)
+    notify critical "󰩹" "Dotfiles diverged" \
+      "Local and remote both moved. Resolve by hand." $open_terminal
+    ;;
+  detached)
+    notify normal "󰌾" "Dotfiles detached" \
+      "An omarchy command replaced a tracked file. Click to review." $open_terminal
+    ;;
+  unreachable|uptodate|"") : ;;   # silent: nothing to say
+esac
+
+exit 0

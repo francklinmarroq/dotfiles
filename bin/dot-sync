@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Sync this machine with the dotfiles remote.
+#
+# Safe to run interactively or from the post-boot notification. It never
+# merges, never rebases and never discards local work -- it fast-forwards or
+# it stops and tells you why.
+#
+#   dot-sync            # fetch, fast-forward, re-stow, report
+#   dot-sync --check    # report only, no changes, no prompts (used at boot)
+set -uo pipefail
+
+SELF="$(readlink -f "${BASH_SOURCE[0]}")"
+REPO="$(cd "$(dirname "$SELF")/.." && pwd)"
+HOST="$(hostname)"
+PKGS=(bash hypr omarchy nvim opencode git mise apps)
+CHECK=0
+[ "${1:-}" = "--check" ] && CHECK=1
+
+cd "$REPO" || exit 1
+
+say() { [ "$CHECK" = 1 ] || echo "$@"; }
+# Fail fast instead of blocking on a passphrase prompt when no agent is loaded.
+export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=5"
+export GIT_TERMINAL_PROMPT=0
+
+## 1. Local state ---------------------------------------------------------
+dirty=$(git status --porcelain | wc -l)
+branch=$(git branch --show-current)
+
+## 2. Fetch ---------------------------------------------------------------
+if ! git fetch --quiet origin "$branch" 2>/dev/null; then
+  # No agent, no network, or no upstream. Not an error worth shouting about.
+  echo "STATUS=unreachable DIRTY=$dirty"
+  exit 3
+fi
+
+behind=$(git rev-list --count "HEAD..origin/$branch" 2>/dev/null || echo 0)
+ahead=$(git rev-list --count "origin/$branch..HEAD" 2>/dev/null || echo 0)
+
+## 3. Decide --------------------------------------------------------------
+if [ "$behind" -gt 0 ] && [ "$ahead" -gt 0 ]; then
+  echo "STATUS=diverged BEHIND=$behind AHEAD=$ahead DIRTY=$dirty"
+  say "Diverged: $behind behind, $ahead ahead. Resolve by hand -- this script will not merge."
+  exit 4
+fi
+
+if [ "$behind" -eq 0 ]; then
+  echo "STATUS=uptodate AHEAD=$ahead DIRTY=$dirty"
+  say "Up to date${ahead:+ ($ahead unpushed)}."
+  [ "$CHECK" = 1 ] && exit 0
+else
+  if [ "$dirty" -gt 0 ]; then
+    echo "STATUS=dirty BEHIND=$behind DIRTY=$dirty"
+    say "$behind commit(s) to pull, but you have $dirty uncommitted change(s)."
+    say "Commit or stash first, then re-run."
+    exit 5
+  fi
+  if [ "$CHECK" = 1 ]; then echo "STATUS=behind BEHIND=$behind"; exit 6; fi
+
+  say "==> pulling $behind commit(s)"
+  git pull --ff-only origin "$branch" || { echo "STATUS=pullfailed"; exit 7; }
+
+  say "==> re-stowing"
+  stow -d "$REPO" -t "$HOME" -R "${PKGS[@]}" || { echo "STATUS=stowfailed"; exit 8; }
+  [ -d "$REPO/hosts/$HOST" ] && stow -d "$REPO/hosts" -t "$HOME" -R "$HOST"
+
+  omarchy restart shell 2>/dev/null || true
+  hyprctl reload 2>/dev/null || true
+fi
+
+## 4. Detached files ------------------------------------------------------
+if ! "$REPO/bin/dot-resync" >/dev/null 2>&1; then
+  echo "STATUS=detached"
+  say
+  say "Some tracked files detached from the repo (an omarchy command rewrote them):"
+  "$REPO/bin/dot-resync"
+  exit 9
+fi
+
+say "Everything in sync."
+[ "$CHECK" = 0 ] && [ -t 0 ] && { echo; read -rp "Press enter to close..." _; }
+exit 0

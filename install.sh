@@ -146,4 +146,5 @@ hyprctl configerrors 2>/dev/null || true
 
 echo
 echo "Done. Replaced files backed up to: $BACKUP"
+echo "Login sync hook installed: ~/.config/omarchy/hooks/post-boot.d/sync-dotfiles.hook"
 echo "Not handled here: ~/.ssh, ~/.gnupg, browser profiles, app logins."

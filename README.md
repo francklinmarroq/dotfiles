@@ -120,6 +120,40 @@ already resolve to updated content.
 Since your configs are symlinks, editing `~/.config/hypr/input.lua` edits the
 repo. Commit from `~/dotfiles` as normal.
 
+### Automatic sync
+
+`omarchy/.config/omarchy/hooks/post-boot.d/sync-dotfiles.hook` is installed on
+every machine automatically -- it lives inside the `omarchy` stow package, so
+`install.sh` links it into `~/.config/omarchy/hooks/post-boot.d/`. Omarchy runs
+everything in that directory from `autostart.lua` a couple of seconds after
+login.
+
+It finds the repo through its own symlink, so it works regardless of where you
+cloned it. On each login it reports:
+
+| State | What you get |
+|---|---|
+| up to date, or offline | nothing (silent) |
+| behind, agent loaded | pulls, re-stows, low-priority "synced" toast |
+| behind, no agent | "Dotfiles behind -- click to sync", opens a terminal |
+| behind but tree dirty | "needs attention", opens a terminal |
+| diverged | critical toast; it will not merge for you |
+| a tracked file detached | "detached -- click to review" |
+
+**Why it usually asks instead of just pulling.** Two seconds after login your
+ssh agent is not holding your key, so an unattended `git pull` over ssh cannot
+authenticate -- it would block on a passphrase prompt with no terminal to type
+into. The hook uses `BatchMode=yes` so that fails instantly rather than
+hanging, then hands you a notification that opens a real terminal where the
+prompt works. If you do keep a key in the agent, it pulls silently instead.
+
+It never merges, rebases, or discards local work: `--ff-only` or it stops.
+
+Run the same logic by hand any time:
+
+    ./bin/dot-sync            # fetch, fast-forward, re-stow, report
+    ./bin/dot-sync --check    # report only, no changes
+
 ### The one trap: commands that replace files
 
 `omarchy bar ...` and `omarchy toggle ...` rewrite `shell.json` **atomically** —
