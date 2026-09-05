@@ -42,10 +42,38 @@ else
 EOF
 fi
 
+## 0. Rollback safety ----------------------------------------------------
+# Step 1 moves live config out of the way BEFORE stow runs. If stow then fails
+# -- or the run is interrupted -- those files would be stranded in the backup
+# and simply absent from $HOME, leaving the machine without a shell rc, a git
+# identity, or a bar config. Anything moved is put back on any non-zero exit.
+ARMED=0
+rollback() {
+  rc=$?
+  trap - EXIT INT TERM
+  [ "$ARMED" = 1 ] || exit "$rc"
+  [ "$rc" = 0 ] && exit 0
+  [ -d "$BACKUP" ] || exit "$rc"
+  echo
+  echo "!! failed (exit $rc) -- restoring everything moved to $BACKUP"
+  local n=0
+  while IFS= read -r rel; do
+    if [ ! -e "$HOME/$rel" ] && [ ! -L "$HOME/$rel" ]; then
+      mkdir -p "$HOME/$(dirname "$rel")"
+      mv "$BACKUP/$rel" "$HOME/$rel" && n=$((n+1))
+    fi
+  done < <(cd "$BACKUP" && find . -type f -printf '%P\n')
+  find "$BACKUP" -type d -empty -delete 2>/dev/null || true
+  echo "!! restored $n file(s). Your machine is back as it was."
+  exit "$rc"
+}
+trap rollback EXIT INT TERM
+
 ## 1. Clear conflicts -----------------------------------------------------
 # stow refuses to overwrite a real file. Move anything in the way into a
 # timestamped backup, but leave correct symlinks alone so re-runs are cheap.
 echo "==> checking for conflicts"
+ARMED=1
 for pkg in "${PKGS[@]}" ${HOST:+hosts/$HOST}; do
   [ -d "$REPO/$pkg" ] || continue
   while IFS= read -r rel; do
@@ -69,14 +97,29 @@ if [ -d "$REPO/hosts/$HOST" ]; then
   stow $DRY -d "$REPO/hosts" -t "$HOME" -R "$HOST"
 fi
 
+ARMED=0   # stow succeeded; the backup is now just a backup
+
 [ -n "$DRY" ] && { echo "dry run complete"; exit 0; }
 
 ## 3. Packages ------------------------------------------------------------
 if [ "$DO_PACKAGES" = 1 ]; then
   echo "==> packages"
-  skip=$(grep -vE '^\s*(#|$)' "$REPO/packages/hardware.txt" | awk '{print $1}' | sort -u)
-  want_repo=$(comm -23 <(sort -u "$REPO/packages/repo.txt") <(printf '%s\n' "$skip"))
-  missing_repo=$(comm -23 <(printf '%s\n' "$want_repo") <(pacman -Qq | sort) | tr '\n' ' ')
+  strip() { grep -vE '^[[:space:]]*(#|$)' "$1" | awk '{print $1}'; }
+
+  # Portable set, plus this host's hardware-coupled set. A package tied to one
+  # machine's CPU or GPU never appears in repo.txt, so it can never leak onto
+  # the wrong box -- amd-ucode and intel-ucode are not interchangeable.
+  HOST_PKGS="$REPO/packages/hosts/$HOST.txt"
+  want=$(strip "$REPO/packages/repo.txt")
+  if [ -f "$HOST_PKGS" ]; then
+    echo "    host package set: packages/hosts/$HOST.txt"
+    want="$want"$'\n'"$(strip "$HOST_PKGS")"
+  else
+    echo "    WARNING: no packages/hosts/$HOST.txt -- installing portable packages only."
+    echo "             This host will get no microcode or GPU driver package."
+  fi
+
+  missing_repo=$(comm -23 <(printf '%s\n' "$want" | sort -u) <(pacman -Qq | sort) | tr '\n' ' ')
   missing_aur=$(comm -23 <(sort -u "$REPO/packages/aur.txt") <(pacman -Qq | sort) | tr '\n' ' ')
 
   if [ -n "${missing_repo// }" ]; then
@@ -89,7 +132,6 @@ if [ "$DO_PACKAGES" = 1 ]; then
     omarchy pkg aur add $missing_aur
   else echo "    AUR packages: nothing missing"; fi
 
-  echo "    NOTE: skipped as hardware-specific: $(echo $skip)"
 fi
 
 ## 4. Theme + font --------------------------------------------------------

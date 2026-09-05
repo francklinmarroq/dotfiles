@@ -1,0 +1,5 @@
+# Hardware-coupled packages for OmarchyDesktop
+# (AMD Ryzen 5 5600G, Cezanne/Radeon Vega iGPU, no fingerprint reader, no battery).
+amd-ucode
+vulkan-radeon
+libva-mesa-driver

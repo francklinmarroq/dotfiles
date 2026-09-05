@@ -6,3 +6,7 @@ opencode/.config/opencode/package-lock.json
 
 # nvim plugin state is machine-local
 nvim/.config/nvim/.git/
+
+# Omarchy regenerates this as a symlink into ~/.local/state/omarchy/current/theme/
+# on every `omarchy theme set`. Machine-local state, not config.
+nvim/.config/nvim/lua/plugins/theme.lua

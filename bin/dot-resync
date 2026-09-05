@@ -19,6 +19,13 @@ for pkg in "$REPO"/*/ "$REPO/hosts/$HOST/"; do
   case "$(basename "$pkg")" in bin|packages|hosts|.git) continue ;; esac
   while IFS= read -r rel; do
     target="$HOME/$rel"
+    [ -e "$target" ] || continue
+    # A file is correctly stowed if it RESOLVES into the repo -- either via its
+    # own symlink, or because stow folded a parent directory into a single
+    # symlink. Testing `-L` on the file alone misses the folded case and would
+    # report every file under a folded directory as detached; --fix would then
+    # rm it through the fold, deleting the repo's own copy.
+    [ "$(readlink -f "$target")" = "$(readlink -f "$pkg/$rel")" ] && continue
     [ -f "$target" ] && [ ! -L "$target" ] && detached+=("$pkg|$rel")
   done < <(cd "$pkg" && find . -type f -printf '%P\n')
 done

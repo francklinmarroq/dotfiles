@@ -35,7 +35,8 @@ only the ones you actually changed.
 | `git` | `~/.config/git` | aliases, rerere, histogram diffs |
 | `mise` | `~/.config/mise` | tool versions |
 | `apps` | `~/.local/share` | the 2 non-stock desktop entries + their icons |
-| `hosts/<hostname>` | `~` | **machine-specific** — `monitors.lua` |
+| `hosts/franklaptop` | `~` | Intel laptop — `monitors.lua`, scale 1.25 |
+| `hosts/OmarchyDesktop` | `~` | AMD desktop — `monitors.lua`, scale 1, HP X24ih |
 
 Everything else on this machine is stock Omarchy and is deliberately not
 tracked. Tracking upstream defaults only creates merge conflicts on
@@ -70,8 +71,22 @@ geometry. To add one:
     $EDITOR hosts/$(hostname)/.config/hypr/monitors.lua
     ./install.sh
 
-Also review `packages/hardware.txt` before installing: it holds `intel-ucode`
-(wrong on AMD) and `fprintd`/`libfprint` (pointless without a reader).
+### Package sets
+
+`packages/repo.txt` holds only packages that are safe on any machine.
+Anything coupled to a CPU or GPU lives in `packages/hosts/<hostname>.txt`, so
+it is structurally impossible for one machine's driver to land on the other:
+
+| File | Contents |
+|---|---|
+| `packages/repo.txt` | 221 portable packages |
+| `packages/aur.txt` | AUR packages |
+| `packages/hosts/franklaptop.txt` | `intel-ucode`, `vulkan-intel`, `intel-media-driver`, `fprintd`, `libfprint` |
+| `packages/hosts/OmarchyDesktop.txt` | `amd-ucode`, `vulkan-radeon`, `libva-mesa-driver` |
+
+`install.sh` installs `repo.txt` + `hosts/$(hostname).txt`. If a host has no
+list it warns and installs the portable set only — that machine gets no
+microcode or GPU driver package, so add its list.
 
 ## Day-to-day
 

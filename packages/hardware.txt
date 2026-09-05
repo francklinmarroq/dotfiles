@@ -1,5 +1,0 @@
-# Packages in repo.txt that are tied to THIS machine's hardware.
-# install.sh skips every name listed here. Delete a line to let it install.
-intel-ucode        # Intel CPU microcode -- use amd-ucode on an AMD box
-fprintd            # fingerprint daemon -- only if the machine has a reader
-libfprint          # fingerprint driver library
