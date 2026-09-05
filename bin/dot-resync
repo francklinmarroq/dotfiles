@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Some Omarchy commands (`omarchy bar ...`, `omarchy toggle ...`) rewrite their
+# config atomically -- write a temp file, then mv it over the target. That mv
+# REPLACES the stow symlink with a regular file, silently detaching it from the
+# repo. This finds those, pulls the new content back in, and re-stows.
+#
+#   dot-resync          # report only
+#   dot-resync --fix    # absorb changes into the repo and re-stow
+set -euo pipefail
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+HOST="$(hostname)"
+FIX=0
+[ "${1:-}" = "--fix" ] && FIX=1
+
+detached=()
+for pkg in "$REPO"/*/ "$REPO/hosts/$HOST/"; do
+  [ -d "$pkg" ] || continue
+  case "$(basename "$pkg")" in bin|packages|hosts|.git) continue ;; esac
+  while IFS= read -r rel; do
+    target="$HOME/$rel"
+    [ -f "$target" ] && [ ! -L "$target" ] && detached+=("$pkg|$rel")
+  done < <(cd "$pkg" && find . -type f -printf '%P\n')
+done
+
+if [ ${#detached[@]} -eq 0 ]; then echo "clean: every tracked file is still a symlink"; exit 0; fi
+
+echo "Detached from the repo (a real file now sits where a symlink should):"
+for d in "${detached[@]}"; do
+  pkg="${d%%|*}"; rel="${d#*|}"
+  echo "  $rel"
+  if ! diff -q "$pkg/$rel" "$HOME/$rel" >/dev/null 2>&1; then echo "      (content differs from repo)"; fi
+done
+
+[ "$FIX" = 0 ] && { echo; echo "Re-run with --fix to absorb these back into the repo."; exit 0; }
+
+for d in "${detached[@]}"; do
+  pkg="${d%%|*}"; rel="${d#*|}"
+  cp -a "$HOME/$rel" "$pkg/$rel"
+  rm "$HOME/$rel"
+done
+stow -d "$REPO" -t "$HOME" -R bash hypr omarchy nvim opencode git mise apps
+[ -d "$REPO/hosts/$HOST" ] && stow -d "$REPO/hosts" -t "$HOME" -R "$HOST"
+echo
+echo "Absorbed and re-stowed. Review with: git -C $REPO diff"

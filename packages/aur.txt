@@ -1,0 +1,3 @@
+android-studio
+supabase
+teams-for-linux

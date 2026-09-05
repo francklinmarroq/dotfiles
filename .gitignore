@@ -1,0 +1,8 @@
+# opencode pulls a full node tree; never commit it
+opencode/.config/opencode/node_modules/
+opencode/.config/opencode/package-lock.json
+*.tui-migration.bak
+*.backup
+
+# nvim plugin state is machine-local
+nvim/.config/nvim/.git/

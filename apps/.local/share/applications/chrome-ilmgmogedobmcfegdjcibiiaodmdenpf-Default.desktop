@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=draw.io
+MimeType=application/vnd.jgraph.mxfile;x-scheme-handler/chromium;
+Exec=/usr/bin/chromium --profile-directory=Default --app-id=ilmgmogedobmcfegdjcibiiaodmdenpf %U
+Icon=chrome-ilmgmogedobmcfegdjcibiiaodmdenpf-Default
+StartupWMClass=crx_ilmgmogedobmcfegdjcibiiaodmdenpf
