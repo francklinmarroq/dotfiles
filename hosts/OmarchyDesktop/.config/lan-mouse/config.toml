@@ -1,0 +1,18 @@
+# lan-mouse peer config for OmarchyDesktop.
+#
+# franklaptop sits physically to the left on the desk, so its mouse/keyboard
+# take over when the cursor is pushed off this machine's left edge.
+#
+# `ips` pins franklaptop's current DHCP lease (192.168.68.114) so this works
+# even if mDNS resolution is briefly unavailable at login; `hostname` is kept
+# so lan-mouse can re-resolve it if that address ever changes.
+#
+# [authorized_fingerprints] is intentionally empty here -- like an SSH known
+# host, franklaptop's key is trusted once interactively on this machine after
+# both boxes have run lan-mouse at least once (see README).
+[[clients]]
+hostname = "franklaptop.local"
+ips = ["192.168.68.114"]
+position = "left"
+
+[authorized_fingerprints]

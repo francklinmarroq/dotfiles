@@ -35,8 +35,8 @@ only the ones you actually changed.
 | `git` | `~/.config/git` | aliases, rerere, histogram diffs |
 | `mise` | `~/.config/mise` | tool versions |
 | `apps` | `~/.local/share` | the 2 non-stock desktop entries + their icons |
-| `hosts/franklaptop` | `~` | Intel laptop — `monitors.lua`, scale 1.25 |
-| `hosts/OmarchyDesktop` | `~` | AMD desktop — `monitors.lua`, scale 1, HP X24ih |
+| `hosts/franklaptop` | `~` | Intel laptop — `monitors.lua`, scale 1.25; `lan-mouse/config.toml` (edge: right) |
+| `hosts/OmarchyDesktop` | `~` | AMD desktop — `monitors.lua`, scale 1, HP X24ih; `lan-mouse/config.toml` (edge: left) |
 
 Everything else on this machine is stock Omarchy and is deliberately not
 tracked. Tracking upstream defaults only creates merge conflicts on
@@ -79,7 +79,7 @@ it is structurally impossible for one machine's driver to land on the other:
 
 | File | Contents |
 |---|---|
-| `packages/repo.txt` | 221 portable packages |
+| `packages/repo.txt` | 223 portable packages |
 | `packages/aur.txt` | AUR packages |
 | `packages/hosts/franklaptop.txt` | `intel-ucode`, `vulkan-intel`, `intel-media-driver`, `fprintd`, `libfprint` |
 | `packages/hosts/OmarchyDesktop.txt` | `amd-ucode`, `vulkan-radeon`, `libva-mesa-driver` |
@@ -87,6 +87,42 @@ it is structurally impossible for one machine's driver to land on the other:
 `install.sh` installs `repo.txt` + `hosts/$(hostname).txt`. If a host has no
 list it warns and installs the portable set only — that machine gets no
 microcode or GPU driver package, so add its list.
+
+### Screen/keyboard sharing and file sync between the two machines
+
+[lan-mouse](https://github.com/feschber/lan-mouse) turns both boxes into one
+software KVM: push the cursor off the shared screen edge and keyboard/mouse
+control (and the clipboard) follow it to the other machine. It's peer-to-peer,
+so control can move either direction — there's no fixed "host".
+
+- The package (`lan-mouse` in `packages/repo.txt`) and the autostart line
+  (`hypr/.config/hypr/autostart.lua`, `o.launch_on_start("lan-mouse daemon")`)
+  are portable and installed on every host via the `hypr` package.
+- Each machine's peer, screen edge, and current LAN IP are host-specific —
+  `hosts/franklaptop/.config/lan-mouse/config.toml` and
+  `hosts/OmarchyDesktop/.config/lan-mouse/config.toml`. franklaptop sits to
+  the left of OmarchyDesktop on the desk, so the edges point at each other
+  accordingly.
+- **First-run pairing is manual and not tracked in git.** lan-mouse generates
+  a private TLS identity per machine (`~/.config/lan-mouse/lan-mouse.pem`,
+  gitignored — never share it between hosts). The first time the two connect,
+  each side must trust the other's key fingerprint once, the same way you'd
+  accept a new SSH host key:
+
+      lan-mouse cli list                                  # see the pending/unauthorized peer
+      lan-mouse cli authorize-key "<description>" <sha256-fingerprint>
+
+  Do this on both machines. After that it reconnects on its own at every
+  login.
+- If a machine's DHCP lease changes, update the `ips` entry in that host's
+  `config.toml` (or just rely on the `hostname` field re-resolving via mDNS).
+
+For actual file transfer, [Syncthing](https://syncthing.net) runs as its own
+shipped `syncthing.service` (systemd --user) on both machines with one shared
+folder — drop a file on either machine and it appears on the other within
+seconds. Syncthing is installed from `packages/repo.txt`, but its device
+IDs/certs are credential-like (see "Not in this repo" below) and are paired
+once through its web UI (`http://localhost:8384`) rather than tracked here.
 
 ## Day-to-day
 

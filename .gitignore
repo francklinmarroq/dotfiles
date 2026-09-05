@@ -10,3 +10,7 @@ nvim/.config/nvim/.git/
 # Omarchy regenerates this as a symlink into ~/.local/state/omarchy/current/theme/
 # on every `omarchy theme set`. Machine-local state, not config.
 nvim/.config/nvim/lua/plugins/theme.lua
+
+# lan-mouse's TLS identity, generated per machine on first run. Never share a
+# private key between hosts -- each box gets its own, like an SSH host key.
+hosts/*/.config/lan-mouse/*.pem

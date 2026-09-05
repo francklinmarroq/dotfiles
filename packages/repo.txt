@@ -65,6 +65,7 @@ jdk21-openjdk
 jq
 kdenlive
 kernel-modules-hook
+lan-mouse
 lazydocker
 lazygit
 less
@@ -180,6 +181,7 @@ sof-firmware
 starship
 sudo
 sushi
+syncthing
 system-config-printer
 tensaku
 tesseract
