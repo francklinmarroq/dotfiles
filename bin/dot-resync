@@ -46,7 +46,7 @@ for d in "${detached[@]}"; do
   cp -a "$HOME/$rel" "$pkg/$rel"
   rm "$HOME/$rel"
 done
-stow -d "$REPO" -t "$HOME" -R bash hypr omarchy nvim opencode git mise apps
-[ -d "$REPO/hosts/$HOST" ] && stow -d "$REPO/hosts" -t "$HOME" -R "$HOST"
+stow --no-folding -d "$REPO" -t "$HOME" -R bash hypr omarchy nvim opencode git mise apps
+[ -d "$REPO/hosts/$HOST" ] && stow --no-folding -d "$REPO/hosts" -t "$HOME" -R "$HOST"
 echo
 echo "Absorbed and re-stowed. Review with: git -C $REPO diff"

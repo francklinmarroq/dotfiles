@@ -19,6 +19,21 @@ for a in "$@"; do
   esac
 done
 
+if [ "$(id -u)" = 0 ]; then
+  cat >&2 <<'EOF'
+Do not run this with sudo.
+
+Under sudo $HOME becomes /root, so stow would link this repo into root's
+home directory instead of yours, and every file it created would be owned
+by root. Run it as yourself:
+
+    ./install.sh
+
+It will ask for your password only if it needs to install a package.
+EOF
+  exit 1
+fi
+
 command -v omarchy >/dev/null || { echo "This is not an Omarchy system." >&2; exit 1; }
 command -v stow    >/dev/null || omarchy pkg add stow
 
@@ -91,10 +106,17 @@ done
 ## 2. Stow ----------------------------------------------------------------
 echo "==> stowing"
 # shellcheck disable=SC2086
-stow $DRY -d "$REPO" -t "$HOME" -R "${PKGS[@]}"
+# --no-folding is required, not cosmetic. Without it stow replaces a
+# directory that does not yet exist with a single symlink to one package
+# ("folding"). Both `hypr` and `hosts/<hostname>` place files in
+# .config/hypr, so on a machine where that directory is absent the first
+# package folds it and the second cannot then add monitors.lua to it:
+#   existing target is not owned by stow: .config/hypr
+# Real directories keep both packages able to contribute files.
+stow $DRY --no-folding -d "$REPO" -t "$HOME" -R "${PKGS[@]}"
 if [ -d "$REPO/hosts/$HOST" ]; then
   # shellcheck disable=SC2086
-  stow $DRY -d "$REPO/hosts" -t "$HOME" -R "$HOST"
+  stow $DRY --no-folding -d "$REPO/hosts" -t "$HOME" -R "$HOST"
 fi
 
 ARMED=0   # stow succeeded; the backup is now just a backup

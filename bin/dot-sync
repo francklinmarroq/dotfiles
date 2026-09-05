@@ -61,8 +61,8 @@ else
   git pull --ff-only origin "$branch" || { echo "STATUS=pullfailed"; exit 7; }
 
   say "==> re-stowing"
-  stow -d "$REPO" -t "$HOME" -R "${PKGS[@]}" || { echo "STATUS=stowfailed"; exit 8; }
-  [ -d "$REPO/hosts/$HOST" ] && stow -d "$REPO/hosts" -t "$HOME" -R "$HOST"
+  stow --no-folding -d "$REPO" -t "$HOME" -R "${PKGS[@]}" || { echo "STATUS=stowfailed"; exit 8; }
+  [ -d "$REPO/hosts/$HOST" ] && stow --no-folding -d "$REPO/hosts" -t "$HOME" -R "$HOST"
 
   omarchy restart shell 2>/dev/null || true
   hyprctl reload 2>/dev/null || true
