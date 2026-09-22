@@ -55,7 +55,11 @@ return {
     opts = {
       enhanced_diff_hl = true,
       view = {
-        merge_tool = { layout = "diff3_mixed" },
+        merge_tool = {
+          layout = "diff3_mixed",
+          -- Same reason as in git-conflict.lua: markers aren't valid syntax.
+          disable_diagnostics = true,
+        },
       },
     },
   },
