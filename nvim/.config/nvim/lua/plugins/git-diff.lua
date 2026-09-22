@@ -67,6 +67,12 @@ return {
   {
     "pwntester/octo.nvim",
     -- The LazyVim extra defaults to telescope; this config uses snacks.picker.
-    opts = { picker = "snacks" },
+    -- It also turns on default_to_projects_v2, which makes every PR/issue detail
+    -- query ask for ProjectV2 fields. Our gh token has no `read:project` scope,
+    -- so those queries fail wholesale and the octo:// buffer opens empty --
+    -- lists still work because they don't request those fragments. Turn it back
+    -- off (octo's own default). Run `gh auth refresh -s read:project` and flip
+    -- this to true if Projects v2 support is ever wanted.
+    opts = { picker = "snacks", default_to_projects_v2 = false },
   },
 }
