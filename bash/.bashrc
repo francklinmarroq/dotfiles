@@ -22,3 +22,6 @@ export NVM_DIR="$HOME/.config/nvm"
 # opencode
 export PATH=/home/frank/.opencode/bin:$PATH
 . "$HOME/.cargo/env"
+
+# kimi-code
+export PATH="/home/frank/.kimi-code/bin:$PATH"
