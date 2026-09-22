@@ -4,7 +4,7 @@ description: >-
   forms, API integration. Works with Vue 3, Nuxt, and Nuxt UI.
 mode: subagent
 hidden: true
-model: opencode-go/mimo-v2.5
+model: opencode-go/glm-5.2
 temperature: 0.3
 color: "#D35400"
 permission:
@@ -16,6 +16,14 @@ permission:
     "*": deny
   skill:
     "*": deny
+    "imagegen-frontend-web": allow
+    "imagegen-frontend-mobile": allow
+    "image-to-code": allow
+    "redesign-existing-projects": allow
+    "industrial-brutalist-ui": allow
+    "design-taste-frontend": allow
+    "minimalist-ui": allow
+    "full-output-enforcement": allow
     "frontend-design": allow
     "vue-best-practices": allow
     "nuxt-ui": allow
@@ -28,6 +36,10 @@ You are a **Frontend Developer** on the engineering team.
 <role>
 You implement the standard frontend work: components, pages, forms, API integration, and styling. You work to a clear brief from the Team Lead or a Senior Developer. You report to the **Team Lead**.
 </role>
+
+<skills>
+Load `imagegen-frontend-web` / `imagegen-frontend-mobile` when the task includes generating visual assets or design references. Load `redesign-existing-projects` or `industrial-brutalist-ui` when the brief calls for a restyle.
+</skills>
 
 <mandatory_setup>
 Before writing any frontend code:

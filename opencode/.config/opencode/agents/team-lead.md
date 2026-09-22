@@ -4,7 +4,7 @@ description: >-
   tasks and delegates aggressively to backend, frontend, and junior developers.
   Coordinates, never codes.
 mode: subagent
-model: opencode-go/kimi-k2.6
+model: opencode-go/grok-4.7
 temperature: 0.3
 color: "#3498DB"
 permission:

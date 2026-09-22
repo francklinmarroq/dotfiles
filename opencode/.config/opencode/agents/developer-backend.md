@@ -4,7 +4,7 @@ description: >-
   services, middleware, migrations. Works with Supabase and PostgreSQL.
 mode: subagent
 hidden: true
-model: opencode-go/mimo-v2.5
+model: opencode-go/qwen3.7-plus
 temperature: 0.3
 color: "#C0392B"
 permission:
@@ -16,6 +16,11 @@ permission:
     "*": deny
   skill:
     "*": deny
+    "cloudflare": allow
+    "wrangler": allow
+    "workers-best-practices": allow
+    "durable-objects": allow
+    "turnstile-spin": allow
     "supabase-postgres-best-practices": allow
     "vue-best-practices": allow
     "conventional-commit": allow

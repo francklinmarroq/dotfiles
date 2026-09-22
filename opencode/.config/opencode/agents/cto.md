@@ -4,7 +4,7 @@ description: >-
   defines strategy, and delegates to the right specialist. First point of
   contact for any task.
 mode: primary
-model: opencode-go/kimi-k2.6
+model: kimi-code-plan-global/k3
 temperature: 0.3
 color: "#FF6B35"
 permission:

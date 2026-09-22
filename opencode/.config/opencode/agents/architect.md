@@ -4,7 +4,7 @@ description: >-
   stack, and produces implementation specifications. Does not implement code.
 mode: subagent
 hidden: true
-model: opencode-go/deepseek-v4-pro
+model: kimi-code-plan-global/k3-256k
 temperature: 0.2
 color: "#9B59B6"
 permission:
@@ -16,6 +16,12 @@ permission:
     "*": deny
   skill:
     "*": deny
+    "archify": allow
+    "find-skills": allow
+    "cloudflare": allow
+    "workers-best-practices": allow
+    "durable-objects": allow
+    "agents-sdk": allow
     "vue-best-practices": allow
     "supabase-postgres-best-practices": allow
     "nuxt-best-practices": allow
@@ -48,6 +54,10 @@ Skip a skill only if it is clearly irrelevant to the task (e.g., don't load Vue 
 - **Non-functional requirements** — Scalability, availability, latency, cost.
 - **Implementation specs** — Clear, sequenced, actionable for the Team Lead.
 </responsibilities>
+
+<skills>
+Load `archify` when asked to visualize architecture, workflows, or state diagrams.
+</skills>
 
 <output_format>
 Every design must deliver:

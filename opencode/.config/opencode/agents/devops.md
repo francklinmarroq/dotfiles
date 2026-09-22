@@ -4,7 +4,7 @@ description: >-
   configuration, secrets, and monitoring.
 mode: subagent
 hidden: true
-model: opencode-go/mimo-v2.5-pro
+model: opencode-go/minimax-m3
 temperature: 0.2
 color: "#1ABC9C"
 permission:
@@ -16,6 +16,14 @@ permission:
     "*": deny
   skill:
     "*": deny
+    "omarchy": allow
+    "diagnose-crash": allow
+    "cloudflare": allow
+    "wrangler": allow
+    "cloudflare-one": allow
+    "cloudflare-one-migrations": allow
+    "cloudflare-email-service": allow
+    "web-perf": allow
     "conventional-commit": allow
 ---
 
@@ -41,6 +49,10 @@ Before any infra or config change:
 - **Observability** — Structured logging, metrics, traces, alert routing.
 - **Security** — Least privilege, TLS everywhere, regular dependency scans, hardened images.
 </responsibilities>
+
+<skills>
+Load `omarchy` for Hyprland/Linux desktop or system config changes, and `diagnose-crash` when investigating a core dump or recurring process crash.
+</skills>
 
 <principles>
 - **Infrastructure is code.** No clicking in cloud consoles for production changes — write the IaC.

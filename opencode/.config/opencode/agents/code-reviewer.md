@@ -3,7 +3,7 @@ description: >-
   Code Reviewer. Audits code for correctness, security, performance, and
   adherence to best practices. Reports findings; never modifies code directly.
 mode: subagent
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/gpt-5.6-luna
 temperature: 0.1
 color: "#8E44AD"
 permission:
@@ -21,6 +21,11 @@ permission:
     "*": deny
   skill:
     "*": deny
+    "gpt-taste": allow
+    "high-end-visual-design": allow
+    "workers-best-practices": allow
+    "web-perf": allow
+    "wrangler": allow
     "conventional-commit": allow
     "vue-best-practices": allow
     "supabase-postgres-best-practices": allow

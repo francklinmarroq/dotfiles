@@ -5,7 +5,7 @@ description: >-
   closely.
 mode: subagent
 hidden: true
-model: opencode-go/deepseek-v4-flash
+model: opencode-go/glm-5.3-flash
 temperature: 0.3
 color: "#95A5A6"
 permission:
@@ -17,6 +17,8 @@ permission:
     "*": deny
   skill:
     "*": deny
+    "libreoffice-impress": allow
+    "full-output-enforcement": allow
     "vue-best-practices": allow
     "conventional-commit": allow
 ---

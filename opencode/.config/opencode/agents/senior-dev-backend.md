@@ -5,7 +5,7 @@ description: >-
   PostgreSQL.
 mode: subagent
 hidden: true
-model: opencode-go/deepseek-v4-pro
+model: kimi-code-plan-global/kimi-for-coding
 temperature: 0.2
 color: "#E74C3C"
 permission:
@@ -18,6 +18,14 @@ permission:
     "junior-dev": allow
   skill:
     "*": deny
+    "cloudflare": allow
+    "wrangler": allow
+    "workers-best-practices": allow
+    "durable-objects": allow
+    "agents-sdk": allow
+    "sandbox-stable": allow
+    "sandbox-next": allow
+    "turnstile-spin": allow
     "supabase-postgres-best-practices": allow
     "vue-best-practices": allow
     "conventional-commit": allow

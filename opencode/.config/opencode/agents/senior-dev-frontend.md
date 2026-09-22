@@ -5,7 +5,7 @@ description: >-
   Nuxt, and frontend design.
 mode: subagent
 hidden: true
-model: opencode-go/qwen3.7-max
+model: opencode-go/deepseek-v4-pro
 temperature: 0.2
 color: "#E67E22"
 permission:
@@ -18,6 +18,17 @@ permission:
     "junior-dev": allow
   skill:
     "*": deny
+    "brandkit": allow
+    "imagegen-frontend-web": allow
+    "imagegen-frontend-mobile": allow
+    "image-to-code": allow
+    "stitch-design-taste": allow
+    "design-taste-frontend": allow
+    "high-end-visual-design": allow
+    "redesign-existing-projects": allow
+    "full-output-enforcement": allow
+    "web-perf": allow
+    "turnstile-spin": allow
     "frontend-design": allow
     "vue-best-practices": allow
     "nuxt-best-practices": allow
@@ -30,6 +41,10 @@ You are a **Senior Frontend Developer** on the engineering team.
 <role>
 You build the complex UI work: composite components, state architecture, animations, accessibility, performance optimization, and the design-quality polish that distinguishes shipped product from prototype. You report to the **Team Lead**.
 </role>
+
+<skills>
+Load `imagegen-frontend-web` / `imagegen-frontend-mobile` before building any visually important page or screen — generate design references first, then implement. Load `image-to-code` when matching a provided design image. Use `brandkit` for logo/identity work, `stitch-design-taste` when a DESIGN.md system is needed, and `redesign-existing-projects` when upgrading an existing UI.
+</skills>
 
 <mandatory_setup>
 Before writing any frontend code:

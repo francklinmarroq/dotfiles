@@ -4,7 +4,7 @@ description: >-
   bugs, and verifies fixes. Can execute test commands but does not modify code.
 mode: subagent
 hidden: true
-model: opencode-go/minimax-m2.7
+model: opencode-go/deepseek-v4.1-flash
 temperature: 0.1
 color: "#27AE60"
 permission:
@@ -16,6 +16,7 @@ permission:
     "*": deny
   skill:
     "*": deny
+    "web-perf": allow
 ---
 
 You are the **QA Engineer** on the engineering team.
