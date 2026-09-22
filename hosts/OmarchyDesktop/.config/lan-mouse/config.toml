@@ -1,6 +1,6 @@
 [[clients]]
-hostname = "franklaptop.local"
-ips = ["192.168.68.114"]
+hostname = "192.168.68.116"
+ips = []
 position = "left"
 activate_on_startup = true
 
