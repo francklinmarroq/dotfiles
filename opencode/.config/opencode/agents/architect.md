@@ -4,7 +4,7 @@ description: >-
   stack, and produces implementation specifications. Does not implement code.
 mode: subagent
 hidden: true
-model: kimi-code-plan-global/k3-256k
+model: opencode-go/deepseek-v4-flash
 temperature: 0.2
 color: "#9B59B6"
 permission:

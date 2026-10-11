@@ -1,0 +1,9 @@
+// Fallback global para TODOS los agentes (evita 5 retries del provider
+// en los 8 agentes que no tenían cadena propia).
+{
+  "fallback_models": ["opencode-go/deepseek-v4-flash"],
+  // Antes default 10 → un solo intento de fallback y listo.
+  "max_fallback_attempts": 1,
+  "cooldown_seconds": 60,
+  "notify_on_fallback": true
+}
